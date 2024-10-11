@@ -4,15 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9aa3c03-4206-4772-8bc2-07f7e72ebc4c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/project/plugins.sbt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/muehle/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/muehle/build.sbt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/muehle/project/build.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/muehle/src/main/scala/Main.scala" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/muehle/src/test/scala/MySuite.scala" beforeDir="false" />
+    <list default="true" id="c9aa3c03-4206-4772-8bc2-07f7e72ebc4c" name="Changes" comment="Project Assembly">
+      <change beforePath="$PROJECT_DIR$/src/main/scala/de/htwg/se/muehle/aview/Tui.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/se/muehle/aview/Tui.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,14 +64,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/cilas/Studium/Semester3/SE/Muehle&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Muehle.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/cilas/Studium/Semester3/SE/Muehle"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/scala" />
+      <recent name="$PROJECT_DIR$/src/main/scala/de/htwg/se/muehle" />
+      <recent name="$PROJECT_DIR$/src/main/scala" />
+      <recent name="$PROJECT_DIR$/project" />
+    </key>
+  </component>
   <component name="ScalaProjectSettings">
     <option name="migrateConfigurationsNotificationShown" value="true" />
     <option name="scala3DisclaimerShown" value="true" />
@@ -92,6 +94,15 @@
       <option name="presentableId" value="Default" />
       <updated>1728636500415</updated>
     </task>
+    <task id="LOCAL-00001" summary="Project Assembly">
+      <option name="closed" value="true" />
+      <created>1728638315858</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1728638315858</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -104,5 +115,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Project Assembly" />
+    <option name="LAST_COMMIT_MESSAGE" value="Project Assembly" />
   </component>
 </project>
