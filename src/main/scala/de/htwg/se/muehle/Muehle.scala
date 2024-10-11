@@ -9,8 +9,7 @@ package muehle
 
 
 object Muehle {
-
-
+  
   val eol: String = sys.props("line.separator")
 
   def bar(lineWidth: Int, lineNum: Int, eolB: Boolean): String = ("0" + "─" * lineWidth) * lineNum + "0" + (if (eolB) eol else "")
