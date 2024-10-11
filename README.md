@@ -1,2 +1,2 @@
-# M-hle
+# Muehle
 Software Engineering Project
