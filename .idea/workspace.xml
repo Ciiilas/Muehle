@@ -3,43 +3,16 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
-  <component name="BspLocalSettings">
-    <option name="availableProjects">
-      <map>
-        <entry>
-          <key>
-            <ExternalProjectPojo>
-              <option name="name" value="Muehle" />
-              <option name="path" value="$PROJECT_DIR$" />
-            </ExternalProjectPojo>
-          </key>
-          <value>
-            <list>
-              <ExternalProjectPojo>
-                <option name="name" value="file:$PROJECT_DIR$/#muehle/Compile" />
-                <option name="path" value="$PROJECT_DIR$" />
-              </ExternalProjectPojo>
-              <ExternalProjectPojo>
-                <option name="name" value="file:$PROJECT_DIR$/#muehle-build" />
-                <option name="path" value="$PROJECT_DIR$" />
-              </ExternalProjectPojo>
-            </list>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="projectSyncType">
-      <map>
-        <entry key="$PROJECT_DIR$" value="RE_IMPORT" />
-      </map>
-    </option>
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="c9aa3c03-4206-4772-8bc2-07f7e72ebc4c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Sodoku/.idea/modules/sodoku.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Sodoku/.idea/modules/sodoku.sodoku-build.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Semester4/Fibonachi/untitled/untitled.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Semester5/Rechnernetze/.idea/Rechnernetze.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project/plugins.sbt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/muehle/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/muehle/build.sbt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/muehle/project/build.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/muehle/src/main/scala/Main.scala" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/muehle/src/test/scala/MySuite.scala" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,9 +40,24 @@
         </projects_view>
       </state>
     </system>
+    <system id="SBT">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="muehle" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="2" />
@@ -91,6 +79,10 @@
     &quot;last_opened_file_path&quot;: &quot;/Users/cilas/Studium/Semester3/SE/Muehle&quot;
   }
 }</component>
+  <component name="ScalaProjectSettings">
+    <option name="migrateConfigurationsNotificationShown" value="true" />
+    <option name="scala3DisclaimerShown" value="true" />
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
