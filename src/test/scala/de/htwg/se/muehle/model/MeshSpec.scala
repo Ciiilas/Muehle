@@ -10,19 +10,19 @@ class MeshSpec extends AnyWordSpec {
     val eol: String = sys.props("line.separator")
     "have a scalable bar" in {
       normal_mesh.bar(1, 1, true) should be("0─0" + eol)
-      normal_mesh.bar(2,1, true) should be("0─0─0" + eol)
+      normal_mesh.bar(1,2, true) should be("0─0─0" + eol)
       normal_mesh.bar(1,1, false) should be("0─0")
-      normal_mesh.bar(1, 2, true) should be("0──0" + eol)
+      normal_mesh.bar(2, 1, true) should be("0──0" + eol)
       normal_mesh.bar(2, 2, true) should be("0──0──0" + eol)
-      normal_mesh.bar(1, 2, false) should be("0──0")
+      normal_mesh.bar(2, 1, false) should be("0──0")
     }
     "have scalable spacer" in {
       normal_mesh.spacer(1, 1, true) should be("│ │" + eol)
-      normal_mesh.spacer(2, 1, true) should be("│ │ │" + eol)
+      normal_mesh.spacer(1, 2, true) should be("│ │ │" + eol)
       normal_mesh.spacer(1, 1, false) should be("│ │")
-      normal_mesh.spacer(1, 1, true) should be("│  │" + eol)
-      normal_mesh.spacer(2, 1, true) should be("│  │  │" + eol)
-      normal_mesh.spacer(1, 1, false) should be("│  │")
+      normal_mesh.spacer(2, 1, true) should be("│  │" + eol)
+      normal_mesh.spacer(2, 2, true) should be("│  │  │" + eol)
+      normal_mesh.spacer(2, 1, false) should be("│  │")
     }
     "have a scalable middelBar" in {
       normal_mesh.middelBar(1) should be("0──0   0──0" + eol)
