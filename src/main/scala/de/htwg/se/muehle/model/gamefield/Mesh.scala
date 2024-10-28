@@ -1,5 +1,4 @@
-package de.htwg.se.muehle
-package model
+package de.htwg.se.muehle.model.gamefield
 
 class Mesh {
 

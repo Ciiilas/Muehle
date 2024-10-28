@@ -3,7 +3,8 @@ package muehle
 
 //import de.htwg.se.muehle.aview.Tui
 //import de.htwg.se.muehle.controller.Controller
-import de.htwg.se.muehle.model.Mesh
+
+import de.htwg.se.muehle.model.gamefield.Mesh
 
 
 
