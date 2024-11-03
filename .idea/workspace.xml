@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9aa3c03-4206-4772-8bc2-07f7e72ebc4c" name="Changes" comment="try merge conflict">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="c9aa3c03-4206-4772-8bc2-07f7e72ebc4c" name="Changes" comment="maybe finaly let git ignore the workspace.xml and added class mechanic and gemefield">
+      <change afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/se/muehle/model/gamefield/Stone.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/de/htwg/se/muehle/model/game.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/se/muehle/model/game.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/de/htwg/se/muehle/model/gamefield/gamefield.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/se/muehle/model/gamefield/gamefield.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/de/htwg/se/muehle/model/mechanic/mechanic.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/de/htwg/se/muehle/model/mechanic/Mechanic.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +76,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Muehle.executor": "Run",
+    "Application.runExample.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "week5",
     "kotlin-language-version-configured": "true",
@@ -80,7 +84,7 @@
     "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
 }]]></component>
-  <component name="RunManager" selected="ScalaTest.MeshSpec.Mesh should have a scalable bar">
+  <component name="RunManager">
     <configuration name="MeshSpec" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
       <module name="muehle" />
       <option name="VMParameters" value="" />
@@ -190,7 +194,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728639021875</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="maybe finaly let git ignore the workspace.xml and added class mechanic and gemefield">
+      <option name="closed" value="true" />
+      <created>1730651748535</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1730651748535</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -209,6 +221,7 @@
       <path value="$USER_HOME$" />
     </ignored-roots>
     <MESSAGE value="try merge conflict" />
-    <option name="LAST_COMMIT_MESSAGE" value="try merge conflict" />
+    <MESSAGE value="maybe finaly let git ignore the workspace.xml and added class mechanic and gemefield" />
+    <option name="LAST_COMMIT_MESSAGE" value="maybe finaly let git ignore the workspace.xml and added class mechanic and gemefield" />
   </component>
 </project>
