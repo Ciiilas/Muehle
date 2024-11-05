@@ -13,7 +13,7 @@ class Gamefield(size: Int):
   }
 
   def tech_SetStone(ring: Int, posOnRing: Int, color: Stone) = {
-    this.field(ring)(posOnRing) = color
+    field(ring)(posOnRing) = color
   }
 
 
