@@ -17,12 +17,12 @@ class Gamefield(size: Int):
   }
 
 
-
 /*@main def runExample() =
   val grid = Gamefield(3) // Creates a 3x3 board of Stone.White
   grid.displayBoard()
 
   print(grid.field(0))*/
+
 
 
 
