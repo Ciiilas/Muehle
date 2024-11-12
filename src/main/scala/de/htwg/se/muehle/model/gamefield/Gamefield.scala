@@ -2,26 +2,24 @@ package de.htwg.se.muehle.model.gamefield
 
 import de.htwg.se.muehle.model.gamefield.Stone
 
-class Gamefield(size: Int):
-  var field: Vector[Vector[Stone]] = Vector.fill(size, 8)(Stone.None) // Defaulting to White for initialization
+// Step 2: Define the case class with default values and update methods
+case class Gamefield(val muehleMatrix: Vector[Vector[Stone]]):
+  def this(n: Int, m: Int, default: Stone) = this(Vector.fill(n)(Vector.fill(m)(Stone.Empty)))
+  def this() = this(3, 8, Stone.Empty)
 
-  def displayBoard(): Unit =
-    field.foreach(row => println(row.mkString(" ")))
 
-  def getStone(ring: Int, posOnRing: Int): Stone = {
-    field(ring)(posOnRing)
+  // Update method for a specific enumMatrix value at (row, col)
+  def withEnumAt(row: Int, col: Int, newEnum: Stone): Gamefield = {
+    val updatedMatrix =
+      if row >= 0 && row < muehleMatrix.length && col >= 0 && col < muehleMatrix(row).length then
+        muehleMatrix.updated(row, muehleMatrix(row).updated(col, newEnum))
+      else muehleMatrix // No change if out of bounds
+
+    this.copy(muehleMatrix = updatedMatrix)
   }
 
-  def tech_SetStone(ring: Int, posOnRing: Int, color: Stone) = {
-    field(ring)(posOnRing) = color
-  }
 
 
-/*@main def runExample() =
-  val grid = Gamefield(3) // Creates a 3x3 board of Stone.White
-  grid.displayBoard()
-
-  print(grid.field(0))*/
 
 
 
