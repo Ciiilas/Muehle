@@ -1,29 +1,13 @@
 package de.htwg.se.muehle.model.mechanic
 
+import de.htwg.se.muehle.model.gamefield.Stone.Empty
 import de.htwg.se.muehle.model.gamefield.{Gamefield, Stone}
 
 case class Mechanic(turns: Int) {
   def this() = this(0)
 
-
-  // Methode zur Berechnung der erlaubten Züge
-  def allowedMoves(field: Gamefield, ringIndex: Int, posOnRing: Int): List[(Int, Int)] = {
-    // Alle möglichen Bewegungen um einen Schritt
-    val potentialMoves = List(
-      (ringIndex - 1, posOnRing), // Einen Ring tiefer, gleiche Position
-      (ringIndex + 1, posOnRing), // Einen Ring höher, gleiche Position
-      (ringIndex, (posOnRing - 1 + 8) % 8), // Gleicher Ring, eine Position nach links (zyklisch)
-      (ringIndex, (posOnRing + 1) % 8)      // Gleicher Ring, eine Position nach rechts (zyklisch)
-    )
-
-    // Filtern nach erlaubten Zügen mit isMoveAllowed
-    potentialMoves.filter { case (newRing, newPos) =>
-      isMoveAllowed(field: Gamefield, ringIndex, posOnRing, newRing, newPos)
-    }
-  }
-
   // Methode zur Überprüfung eines Zugs
-  def isMoveAllowed(field: Gamefield, oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Boolean = {
+  private def isMoveAllowed(field: Gamefield, oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Boolean = {
     // Prüfen, ob die neue Position innerhalb der Spielfeldgrenzen liegt
     val isWithinBounds =
       newRing >= 0 && newRing < field.muehleMatrix.size &&
@@ -42,14 +26,15 @@ case class Mechanic(turns: Int) {
 
     // Prüfen, ob die Bewegung erlaubt ist
     val isEvenPosition = oldPosOnRing % 2 == 0
+
     isWithinBounds && (
       isSameRingMove || // Bewegung auf demselben Ring
         (!isEvenPosition && isValidRingMove) // Ringwechsel nur, wenn ungerade Position
       )
   }
 
-  private def countStones(field: Gamefield, stoneColor: Stone): Unit = {
-    var count = "String"
+  private def countStones(field: Gamefield, stoneColor: Stone): Int = {
+    field.muehleMatrix.flatten.count(stone => stone == stoneColor)
   }
 
 
@@ -59,68 +44,149 @@ case class Mechanic(turns: Int) {
 
 
   def isSetLegal(field: Gamefield, ring: Int, posOnRing: Int): Boolean = {
-    field.muehleMatrix(ring)(posOnRing) == Stone.Empty
+    if (!(ring >= 0 && ring < field.muehleMatrix.size &&
+        posOnRing >= 0 && posOnRing < field.muehleMatrix(ring).size)) {
+      println("Error! Position ist außerhalb des Spielfeldes")
+      return false
+    }
+
+    if (field.muehleMatrix(ring)(posOnRing) == Stone.Empty) {
+      true
+    } else {
+      println("Error! Der Stein darf nur auf eine leere Position platziert werden!")
+      false
+    }
   }
 
-  def setStone(field: Gamefield, ring: Int, posOnRing: Int): Gamefield = {
-
-    //todo
-
-    return null
+  def setStone(field: Gamefield, ring: Int, posOnRing: Int, stone: Stone): Gamefield = {
+    if (isSetLegal(field, ring, posOnRing)) {
+      val updateRing = field.muehleMatrix.updated(ring, field.muehleMatrix(ring).updated(posOnRing, stone))
+      Gamefield(updateRing)
+    } else {
+      field
+    }
   }
 
-  def isMoveLegal(field: Gamefield, oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Boolean = {
-    val vec = field.muehleMatrix
-    //todo
+  def isMoveLegal(field: Gamefield, oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int, stone: Stone): Boolean = {
+    //when Stone on oldPos equals the player Stone then continue
+    if (!(field.muehleMatrix(oldRing)(oldPosOnRing) == stone)) {
+      println("Error! Stein der bewegt wird ist nicht Ihr Stein!")
+      return false
+    }
+    //when Stone on newPos equals the player Stone then continue
+    if (!(field.muehleMatrix(newRing)(newPosOnRing) == Stone.Empty)) {
+      println("Error! Position zu der bewegt wird ist nicht Leer!")
+      return false
+    }
+
+    if (isMoveAllowed(field, oldRing, oldPosOnRing, newRing, newPosOnRing)) {
+      true
+    } else {
+      println("Error! Der Zug ist so nicht erlaubt")
+      false
+    }
+  }
+
+  def MoveStone(field: Gamefield, oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int, stone: Stone): Gamefield = {
+    if (isMoveLegal(field, oldRing, oldPosOnRing, newRing, newPosOnRing, stone)) {
+      val removeStone = field.muehleMatrix.updated(oldRing, field.muehleMatrix(oldRing).updated(oldPosOnRing, Empty))
+      val placeStone = removeStone.updated(newRing, removeStone(newRing).updated(newPosOnRing, stone))
+      Gamefield(placeStone)
+    } else {
+      println("Error, Stein kann nicht bewegt werden!")
+      field
+    }
+  }
+
+  def isJumpLegal(field: Gamefield, oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int, stone: Stone): Boolean = {
+    if (!(oldRing >= 0 && oldRing < field.muehleMatrix.size &&
+      oldPosOnRing >= 0 && oldPosOnRing < field.muehleMatrix(oldRing).size)) {
+      println("Error! oldPosition ist außerhalb des Spielfeldes")
+      return false
+    }
+    if (!(newRing >= 0 && newRing < field.muehleMatrix.size &&
+      newPosOnRing >= 0 && newPosOnRing < field.muehleMatrix(newRing).size)) {
+      println("Error! newPosition ist außerhalb des Spielfeldes")
+      return false
+    }
+
+    if (!(field.muehleMatrix(oldRing)(oldPosOnRing) == stone)) {
+      println("Error! Stein der bewegt wird ist nicht Ihr Stein!")
+      return false
+    }
+    //when Stone on newPos equals the player Stone then continue
+    if (!(field.muehleMatrix(newRing)(newPosOnRing) == Stone.Empty)) {
+      println("Error! Position zu der bewegt wird ist nicht Leer!")
+      return false
+    }
+    true
+  }
+
+  def JumpStone(field: Gamefield, oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int, stone: Stone): Gamefield = {
+    if (isJumpLegal(field, oldRing, oldPosOnRing, newRing, newPosOnRing, stone)) {
+      val removeStone = field.muehleMatrix.updated(oldRing, field.muehleMatrix(oldRing).updated(oldPosOnRing, Empty))
+      val placeStone = removeStone.updated(newRing, removeStone(newRing).updated(newPosOnRing, stone))
+      Gamefield(placeStone)
+    } else {
+      println("Error, Stein kann nicht bewegt werden!")
+      field
+    }
+  }
+
+  def isRemoveLegal(field: Gamefield, ring: Int, posOnRing: Int, stone: Stone): Boolean = {
+    if (!(ring >= 0 && ring < field.muehleMatrix.size &&
+      posOnRing >= 0 && posOnRing < field.muehleMatrix(ring).size)) {
+      println("Error! Position ist außerhalb des Spielfeldes")
+      return false
+    }
+
+    if (field.muehleMatrix(ring)(posOnRing) == stone) {
+      println("Error! Stein der entfernt werden soll ist nicht Ihr Stein!")
+      return false
+    }
+
+    if (field.muehleMatrix(ring)(posOnRing) == Stone.Empty) {
+      println("Error! Die Position die Sie entfernen wollen ist Leer!")
+      false
+    } else {
+      true
+    }
+  }
+
+  def RemoveStone(field: Gamefield, ring: Int, posOnRing: Int, stone: Stone): Gamefield = {
+    if (isRemoveLegal(field, ring, posOnRing, stone)) {
+      val updateRing = field.muehleMatrix.updated(ring, field.muehleMatrix(ring).updated(posOnRing, Stone.Empty))
+      Gamefield(updateRing)
+    } else {
+      field
+    }
+  }
+
+  def checkForMuehle(field: Gamefield, oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int, stone: Stone): Boolean = {
     
-    //moven auf selben ring +/-1 in der mitte ok
-    //moven auf selben ring 0 -> max
-    //moven auf selben ring max -> 0
-    //moven auf neuen ring +/-1
-    //moven auf selben platz
-    return false
-  }
-
-  def MoveStone(field: Gamefield, oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Gamefield = {
-
-    //todo
-
-    return null
-  }
-
-  def isJumpLegal(field: Gamefield, oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Boolean = {
-
-    //todo
-
-    return false
-  }
-
-  def JumpStone(field: Gamefield, oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Gamefield = {
-
-    //todo
-
-    return null
-  }
-
-  def isRemoveLegal(field: Gamefield, ring: Int, posOnRing: Int): Boolean = {
-
-    //todo
-
-    return false
-  }
-
-  def RemoveStone(field: Gamefield, ring: Int, posOnRing: Int): Gamefield = {
-
-    //todo
-
-    return null
-  }
-
-  def checkForMuehle(field: Gamefield, ring: Int, posOnRing: Int): Boolean = {
-
-    //todo
-
-    return false
+    //check Muehle from Ring Center
+    if (newPosOnRing % 2 == 1) {
+      //checking left right
+      //newPosOnRing == (oldPosOnRing + 1) % 8 || newPosOnRing == (oldPosOnRing - 1 + 8) % 8
+      if (field.muehleMatrix(newRing)((newPosOnRing - 1 + 8) % 8) == stone && field.muehleMatrix(newRing)((newPosOnRing + 1) % 8) == stone) {
+        return true
+      }
+      //checking down up
+      if (field.muehleMatrix((newRing - 1 + 3) % 3) == stone && field.muehleMatrix((newRing + 1) % 3) == stone) {
+        return true
+      }
+      return false
+    }
+    //check Muehle from Ring Corner
+    if (newPosOnRing % 2 == 0) {
+            //Corner right
+      if (field.muehleMatrix(newRing)((newPosOnRing - 1 + 8) % 8) == stone && field.muehleMatrix(newRing)((newPosOnRing - 2 + 8) % 8) == stone 
+        || field.muehleMatrix(newRing)((newPosOnRing + 1) % 8) == stone && field.muehleMatrix(newRing)((newPosOnRing + 2) % 8) == stone) {
+        return true
+      }
+      
+    }
+    false        
   }
 
 

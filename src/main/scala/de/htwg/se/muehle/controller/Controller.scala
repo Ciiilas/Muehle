@@ -3,6 +3,8 @@ package controller
 
 import util.Observable
 import de.htwg.se.muehle.model.Game
+import de.htwg.se.muehle.model.gamefield.Stone
+import de.htwg.se.muehle.model.gamefield.Stone.White
 
 
 case class Controller(game: Game) extends Observable{
@@ -50,7 +52,10 @@ case class Controller(game: Game) extends Observable{
     game.isRemoveLegal(newRing, newPosOnRing)
   }
 
-
+  object PlayerState:
+    var stone = Stone.White
+    def player = stone.toString
+    def next = if stone == White then stone = Stone.Black else stone = Stone.White
 
 
 
