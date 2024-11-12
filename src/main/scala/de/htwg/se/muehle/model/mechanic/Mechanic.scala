@@ -5,6 +5,7 @@ import de.htwg.se.muehle.model.gamefield.{Gamefield, Stone}
 case class Mechanic(turns: Int) {
   def this() = this(0)
 
+
   // Methode zur Berechnung der erlaubten Züge
   def allowedMoves(field: Gamefield, ringIndex: Int, posOnRing: Int): List[(Int, Int)] = {
     // Alle möglichen Bewegungen um einen Schritt
@@ -47,9 +48,14 @@ case class Mechanic(turns: Int) {
       )
   }
 
+  private def countStones(field: Gamefield, stoneColor: Stone): Unit = {
+    var count = "String"
+  }
+
+
   // Update method for turns
-  def updateTurns(newturns: Int): Mechanic =
-    this.copy(turns = newturns)
+  def updateTurns(): Mechanic =
+    this.copy(this.turns + 1)
 
 
   def isSetLegal(field: Gamefield, ring: Int, posOnRing: Int): Boolean = {
@@ -118,13 +124,5 @@ case class Mechanic(turns: Int) {
   }
 
 
-
-
-
-
-
-
-
-  
   
 }

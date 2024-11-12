@@ -1,29 +1,17 @@
 package de.htwg.se.muehle
 package aview
 
-import controller.Controller
+import de.htwg.se.muehle.controller.Controller
 import util.Observer
 import scala.io.StdIn
 
 class Tui(controller: Controller) extends Observer{
-
-  controller.add(this)
-  
+  def this() = this(new Controller())
   
 
-  def getCoords(input: String): Array[Array[Int]] = {
-    val coords = input.split(";")
-    if (coords.length == 2) {
-      val oldCoords = coords(0).split(",").map(_.toInt)
-      val newCoords = coords(1).split(",").map(_.toInt)
-      Array(oldCoords, newCoords)
-    } else {
-      val oldCoords = coords(0).split(",").map(_.toInt)
-      Array(oldCoords)
-    }
-  }
 
-  def run(): Unit =
+
+  def run(): Unit = {
 
     while(true) {
       var textInput: String = StdIn.readLine()
@@ -43,9 +31,25 @@ class Tui(controller: Controller) extends Observer{
         print("Error zu viele oder zu wenige eingabe Wörter")
       }
 
-    }
+      print(controller.game.field.muehleMatrix)
 
-  
+    }
+  }
+
+
+  def getCoords(input: String): Array[Array[Int]] = {
+    val coords = input.split(";")
+    if (coords.length == 2) {
+      val oldCoords = coords(0).split(",").map(_.toInt)
+      val newCoords = coords(1).split(",").map(_.toInt)
+      Array(oldCoords, newCoords)
+    } else {
+      val oldCoords = coords(0).split(",").map(_.toInt)
+      Array(oldCoords)
+    }
+  }
+
+
   override def update(): Unit = {
     
   }
