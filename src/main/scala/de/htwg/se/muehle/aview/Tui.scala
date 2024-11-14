@@ -6,10 +6,7 @@ import util.Observer
 import scala.io.StdIn
 
 class Tui(controller: Controller) extends Observer{
-  def this() = this(new Controller())
-  
-
-
+  controller.add(this)
 
   def run(): Unit = {
 
@@ -21,19 +18,17 @@ class Tui(controller: Controller) extends Observer{
         val textProcessing: Array[String] = textInput.split(" ")
         if (textProcessing.length == 2) {
           textProcessing(0) match {
-            case "move" => print("try to move from: (" + coords(0)(0) + ", " + coords(0)(1) + ") to (" + coords(1)(0) + ", " + coords(1)(1) + ")")
-            case "set" => print("try to set Stone at: (" + coords(0)(0) + ", " + coords(0)(1) + ")")
-            case "jump" => print("try to jump from: (" + coords(0)(0) + ", " + coords(0)(1) + ") to (" + coords(1)(0) + ", " + coords(1)(1) + ")")
-            case "remove" => print("try to remove Stone at: (" + coords(0)(0) + ", " + coords(0)(1) + ")")
-            case _ => print("Error falsches Eingabeformat")
+            case "set" => println("try to set Stone at: (" + coords(0)(0) + ", " + coords(0)(1) + ")"); controller.setStone(coords(0)(0), coords(0)(1))
+            case "move" => println("try to move from: (" + coords(0)(0) + ", " + coords(0)(1) + ") to (" + coords(1)(0) + ", " + coords(1)(1) + ")"); controller.moveStone(coords(0)(0), coords(0)(1), coords(1)(0), coords(1)(1))
+            case "jump" => println("try to jump from: (" + coords(0)(0) + ", " + coords(0)(1) + ") to (" + coords(1)(0) + ", " + coords(1)(1) + ")"); controller.jumpStone(coords(0)(0), coords(0)(1), coords(1)(0), coords(1)(1))
+            case "remove" => println("try to remove Stone at: (" + coords(0)(0) + ", " + coords(0)(1) + ")"); controller.removeStone(coords(0)(0), coords(0)(1))
+            case _ => println("Error falsches Eingabeformat")
           }
         }
       } catch {
-        case e: ArrayIndexOutOfBoundsException => print("Error falsches Eingabeformat")
-        case e: Exception => print("Error falsches Eingabeformat")
+        case e: ArrayIndexOutOfBoundsException => println("Error falsches Eingabeformat")
+        case e: Exception => println("Error falsches Eingabeformat")
       }
-      print(controller.game.field.muehleMatrix)
-
     }
   }
   
@@ -51,6 +46,8 @@ class Tui(controller: Controller) extends Observer{
 
 
   override def update(): Unit = {
-    
+    controller.game.field.muehleMatrix.foreach { row =>
+      println(row.map(_.toString).mkString(" ")) // Jedes Element der Zeile in String umwandeln und mit Leerzeichen trennen
+    }
   }
 }

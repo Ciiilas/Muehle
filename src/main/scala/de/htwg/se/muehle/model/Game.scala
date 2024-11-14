@@ -4,51 +4,61 @@ import de.htwg.se.muehle.model.mechanic.*
 import de.htwg.se.muehle.model.gamefield.*
 
 case class Game(mech: Mechanic, field: Gamefield) {
-  def this() = this(new Mechanic(), new Gamefield())
+  def this() = this(Mechanic(), new Gamefield())
 
 
   //-----------------------------------------------------
   //mechanic
   //-----------------------------------------------------
 
-  def isSetLegal(ring: Int, posOnRing: Int): Boolean = {
-    mech.isSetLegal(field, ring, posOnRing)
+  def setStone(ring: Int, posOnRing: Int): Game = {
+    if (PlayerState.roundCount < 9) {
+      if (mech.isSetLegal(field, ring, posOnRing)) {
+        val newField = mech.setStone(field, ring, posOnRing, PlayerState.stone)
+        PlayerState.next()
+        PlayerState.incrementCount()
+        return Game(this.mech, newField)
+
+      }
+    }
+    println("Error! Es können keine weiteren Steine gesetzt werden!")
+    Game(this.mech, field)
+
   }
 
-  def SetStone(ring: Int, posOnRing: Int): Game = {
-    val newfield = mech.setStone(field, ring, posOnRing)
-    this.copy(field = newfield)
+  def moveStone(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Game = {
+    if (PlayerState.roundCount == 9 && field.muehleMatrix.flatten.count((stone:Stone) => stone == PlayerState.stone) > 3) {
+      if (mech.isMoveLegal(field, oldRing, oldPosOnRing, newRing, newPosOnRing, PlayerState.stone)) {
+        val newField: Gamefield = mech.moveStone(field, oldRing, oldPosOnRing, newRing, newPosOnRing, PlayerState.stone)
+        PlayerState.next()
+        return Game(this.mech, newField)
+      }
+    }
+    println("Error! Stein darf nicht bewegt werden!")
+    Game(this.mech, field)
   }
 
-  def isMoveLegal(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Boolean = {
-    mech.isMoveLegal(field, oldRing, oldPosOnRing, newRing, newPosOnRing)
+  def jumpStone(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Game = {
+    if (PlayerState.roundCount == 9 && field.muehleMatrix.flatten.count((stone:Stone) => stone == PlayerState.stone) <= 3) {
+      if (mech.isJumpLegal(field, oldRing, oldPosOnRing, newRing, newPosOnRing, PlayerState.stone)) {
+        val newField: Gamefield = mech.jumpStone(field, oldRing, oldPosOnRing, newRing, newPosOnRing, PlayerState.stone)
+        PlayerState.next()
+        return Game(this.mech, newField)
+      }
+    }
+    println("Error! Mit dem Stein darf nicht gesprungen werden!")
+    Game(this.mech, field)
   }
 
-  def MoveStone(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Game = {
-    val newfield = mech.MoveStone(field, oldRing, oldPosOnRing, newRing, newPosOnRing)
-    this.copy(field = newfield)
-  }
-
-  def isJumpLegal(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Boolean = {
-    mech.isJumpLegal(field, oldRing, oldPosOnRing, newRing, newPosOnRing)
-  }
-
-  def JumpStone(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Game = {
-    val newfield = mech.JumpStone(field, oldRing, oldPosOnRing, newRing, newPosOnRing)
-    this.copy(field = newfield)
-  }
-
-  def isRemoveLegal(ring: Int, posOnRing: Int): Boolean = {
-    mech.isRemoveLegal(field, ring, posOnRing)
-  }
-
-  def RemoveStone(ring: Int, posOnRing: Int): Game = {
-    val newfield = mech.RemoveStone(field, ring, posOnRing)
-    this.copy(field = newfield)
-  }
-
-  def checkForMuehle(ring: Int, posOnRing: Int): Boolean = {
-    mech.checkForMuehle(field, ring, posOnRing)
+  def removeStone(ring: Int, posOnRing: Int): Game = {
+    if (mech.checkForMuehle(field, ring, posOnRing, PlayerState.stone)) {
+       if (mech.isRemoveLegal(field, ring, posOnRing, PlayerState.stone)) {
+         val newField: Gamefield = mech.removeStone(field, ring, posOnRing, PlayerState.stone)
+         return Game(this.mech, newField)
+       }
+    }
+    println("Error! Der Stein kann nicht entfernt werden!")
+    Game(this.mech, field)
   }
 
   
@@ -58,14 +68,13 @@ case class Game(mech: Mechanic, field: Gamefield) {
 
 
 
-
-
-
-
-
-
-
-
-  
-  
 }
+
+object PlayerState:
+  var stone: Stone = Stone.White
+  def player: String = stone.toString
+  def next(): Unit = if stone.equals(Stone.White) then stone = Stone.Black else stone = Stone.White
+  var roundCount: Int = 0
+  def incrementCount():Unit = if stone.equals(Stone.White) then roundCount = roundCount + 1 else roundCount = roundCount
+
+
