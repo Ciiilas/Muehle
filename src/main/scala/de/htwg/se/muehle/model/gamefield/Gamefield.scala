@@ -17,7 +17,7 @@ case class Gamefield(val muehleMatrix: Vector[Vector[Stone]]) {
     this.copy(muehleMatrix = updatedMatrix)
   }
 
-  override def toString: String = {
+/*  override def toString: String = {
     val numberOfRings = muehleMatrix.size
     val numberOfPos = muehleMatrix.map(row => row.size)
     val eol = "\n"
@@ -25,7 +25,7 @@ case class Gamefield(val muehleMatrix: Vector[Vector[Stone]]) {
 
     return ""
 
-  }
+  }*/
 
   val eol: String = sys.props("line.separator")
 
@@ -49,15 +49,15 @@ case class Gamefield(val muehleMatrix: Vector[Vector[Stone]]) {
     val lenght: Int = 5 + outermostRing * 4
     var bar: Array[Char] = Array.fill(lenght)(' ')
     val numberOfOutsideRings = outermostRing - thisRing
-    //val numberOfNot
-    
+    val numberOfDisturbance = 3 + (outermostRing - thisRing)
+
 
     return ""
   }
-  
+
   def barmiddle(outermostRing: Int): String = {
-    
-    
+
+
     return ""
   }
 
