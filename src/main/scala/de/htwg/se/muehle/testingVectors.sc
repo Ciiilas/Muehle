@@ -2,9 +2,16 @@
 enum Stone:
   case S, W, Empty
 
+val vector = Vector("A", "B", "C", "D")
+vector(0)
+
+val string = "." * 0
+string
 val n = 3 // Beispielsweise 5 Zeilen
 val rows: Vector[Vector[Stone]] = Vector.fill(n)(Vector.fill(8)(Stone.W))
 print(rows.map(_.toString).map(" " + _ + " ").mkString(sys.props("line.separator")))
+
+println(rows(0)(1).toString)
 
 case class Mechanic(turns: Int) {
   def this() = this(0)

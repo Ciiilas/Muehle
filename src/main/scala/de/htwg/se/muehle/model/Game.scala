@@ -66,6 +66,9 @@ case class Game(mech: Mechanic, field: Gamefield) {
   //gamefield
   //-----------------------------------------------------
 
+  def mesh(): String = {
+    field.meshMesh()
+  }
 
 
 }

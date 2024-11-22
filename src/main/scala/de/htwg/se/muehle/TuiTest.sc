@@ -8,6 +8,13 @@ val eol = sys.props("line.separator")
 if(true) {
   println("hi")
 }
+var string: String = ""
+val spacer: String = "│" + " "
+for (i <- 0 until 2) {
+  string += spacer
+  println(i)
+}
+println(string)
 
 val lineWidth: Int = 7
 val lineNum: Int = 2

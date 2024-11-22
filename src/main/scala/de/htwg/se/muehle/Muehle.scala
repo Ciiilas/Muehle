@@ -21,11 +21,15 @@ object Muehle {
 
 
     println("Welcome to Muehle")
-    Tui.run()
-
+    
     val lineWidth: Int = 7
     val lineNum: Int = 2
     val boolean: Boolean = true
+    println(mesh.mesh(lineWidth, lineNum))
+    
+    Tui.run()
+
+    
 
 
 
