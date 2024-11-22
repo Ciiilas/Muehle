@@ -6,6 +6,20 @@ import de.htwg.se.muehle.model.gamefield.Stone
 case class Gamefield(val muehleMatrix: Vector[Vector[Stone]]) {
   def this(n: Int, m: Int, default: Stone) = this(Vector.fill(n)(Vector.fill(m)(Stone.Empty)))
   def this() = this(3, 8, Stone.Empty)
+  def this(boardString: String, rows: Int, cols: Int) = { // val board = new Board("WBEBEWEWE", 2, 5) -> Vector(Vector(White, Black, Empty, Black, Empty), Vector(White, Empty, White, Empty, Empty))
+    this(
+      boardString
+        .grouped(cols)
+        .map(row =>
+          row.map {
+            case 'W' => Stone.White
+            case 'B' => Stone.Black
+            case 'E' => Stone.Empty
+            case _ => throw new IllegalArgumentException("Invalid character in boardString")
+          }.toVector
+        ).toVector
+    )
+  }
 
   // Update method for a specific enumMatrix value at (row, col)
   def withEnumAt(row: Int, col: Int, newEnum: Stone): Gamefield = {
