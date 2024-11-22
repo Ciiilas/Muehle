@@ -28,7 +28,10 @@ metals.sbt
 
 # IDEA
 .idea/
-*.xml
+workspace.xml
 .idea_modules
 /.worksheet/
 
+.idea/workspace.xml
+.idea/workspace.xml
+.idea/workspace.xml

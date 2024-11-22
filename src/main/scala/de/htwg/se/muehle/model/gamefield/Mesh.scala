@@ -1,8 +1,8 @@
-package de.htwg.se.muehle
-package model
+package de.htwg.se.muehle.model.gamefield
 
-class Mesh {
-
+case class Mesh () {
+  
+  
 val eol: String = sys.props("line.separator")
 
 def bar(lineWidth: Int, lineNum: Int, eolB: Boolean): String = ("0" + "─" * lineWidth) * lineNum + "0" + (if (eolB) eol else "")

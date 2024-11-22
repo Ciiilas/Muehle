@@ -2,11 +2,40 @@ package de.htwg.se.muehle
 package controller
 
 import util.Observable
+import de.htwg.se.muehle.model.Game
+import de.htwg.se.muehle.model.gamefield.Stone
+import de.htwg.se.muehle.model.gamefield.Stone.White
 
 
+case class Controller(var game: Game) extends Observable {
+  def this() = this(new Game())
 
-class Controller() extends Observable{
+  override def toString: String = game.field.muehleMatrix.toString
 
-  override def toString: String = "Hallo"
+  //-----------------------------------------------------
+  //mechanic
+  //-----------------------------------------------------
 
+  def setStone(newRing: Int, newPosOnRing: Int): Unit = {
+    game = game.setStone(newRing, newPosOnRing)
+    notifyObservers()
+  }
+
+
+  def moveStone(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Unit = {
+    game = game.moveStone(oldRing, oldPosOnRing, newRing, newPosOnRing)
+    notifyObservers()
+  }
+
+  def jumpStone(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Unit = {
+    game = game.jumpStone(oldRing, oldPosOnRing, newRing, newPosOnRing)
+    
+    notifyObservers()
+  }
+
+  def removeStone(newRing: Int, newPosOnRing: Int): Unit = {
+    game = game.removeStone(newRing, newPosOnRing)
+    notifyObservers()
+  }
 }
+
