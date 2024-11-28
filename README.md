@@ -2,7 +2,6 @@
 Software Engineering Project
 
 Befehle:
-
 set x,y (Standard max 2,7)
 move x,y;x,y
 jump x,y;x,y
