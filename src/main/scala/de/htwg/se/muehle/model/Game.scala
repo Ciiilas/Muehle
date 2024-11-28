@@ -51,7 +51,7 @@ case class Game(mech: Mechanic, field: Gamefield) {
   }
 
   def removeStone(ring: Int, posOnRing: Int): Game = {
-    if (mech.checkForMuehle(field, ring, posOnRing, PlayerState.stone)) {
+    if (mech.evaluateStrategy.checkForMuehle(field, ring, posOnRing, PlayerState.stone)) {
        if (mech.isRemoveLegal(field, ring, posOnRing, PlayerState.stone)) {
          val newField: Gamefield = mech.removeStone(field, ring, posOnRing, PlayerState.stone)
          return Game(this.mech, newField)
