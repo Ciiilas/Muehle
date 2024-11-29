@@ -5,7 +5,7 @@ import de.htwg.se.muehle.model.gamefield.*
 
 case class Game(mech: Mechanic, field: Gamefield) {
   def this() = this(Mechanic(), new Gamefield())
-
+  def this(gamefield: Gamefield) = this(Mechanic(), gamefield)
 
   //-----------------------------------------------------
   //mechanic
