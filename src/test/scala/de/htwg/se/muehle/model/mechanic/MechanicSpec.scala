@@ -10,8 +10,9 @@ import de.htwg.se.muehle.model.gamefield.Stone
 
 class MechanicSpec extends AnyWordSpec {
   "Mechanic" should {
-
+    
     val game = new Game()
+    
     "recognise if move is allowed or not" in {
       game.mech.isMoveAllowed(new Gamefield("WEEEEEEE", 1, 8), 0, 0, 0, 1) should be(true)
       game.mech.isMoveAllowed(new Gamefield("WEEEEEEE", 1, 8), 0, 0, 0, 2) should be(false)
