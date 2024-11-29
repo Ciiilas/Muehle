@@ -11,10 +11,11 @@ class Tui(controller: Controller) extends Observer{
   controller.add(this)
 
   def run(): Unit = {
-
+    // Dekorator Einschalten
+    
+    
     while(true) {
       try {
-        println(controller.game.mesh())
         var textInput: String = StdIn.readLine()
         val coords = getCoords(textInput.split(" ")(1))
 
@@ -49,8 +50,7 @@ class Tui(controller: Controller) extends Observer{
 
 
   override def update(): Unit = {
-    controller.game.field.muehleMatrix.foreach { row =>
-      println(row.map(_.toString).mkString(" ")) // Jedes Element der Zeile in String umwandeln und mit Leerzeichen trennen
-    }
+    controller.setDecorator(true) // Dekorator ausschalten
+    println(controller.getMesh.render())
   }
 }

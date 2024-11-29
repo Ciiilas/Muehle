@@ -25,22 +25,7 @@ object Muehle {
     val lineWidth: Int = 7
     val lineNum: Int = 2
     val boolean: Boolean = true
-    println(mesh.mesh(lineWidth, lineNum))
     
     Tui.run()
-
-    
-
-
-
-    println(mesh.mesh(lineWidth, lineNum))
-
-
-//    val size: Int = 36
-//    val player = Player(Figure.Boot)
-//    val card = Card(Street_Names.Schlossallee, 0, Figure.Empty)
-//    val controller = new Controller(Board().fillCards)
-//    val tui = new Tui(controller)
-//    tui.run()
   }
 }

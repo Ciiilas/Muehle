@@ -2,6 +2,7 @@ package de.htwg.se.muehle
 package controller
 
 import util.Observable
+import de.htwg.se.muehle.model.gamefield.meshComponentInterface
 import de.htwg.se.muehle.model.Game
 import de.htwg.se.muehle.model.gamefield.Stone
 import de.htwg.se.muehle.model.gamefield.Stone.White
@@ -9,8 +10,7 @@ import de.htwg.se.muehle.model.gamefield.Stone.White
 
 case class Controller(var game: Game) extends Observable {
   def this() = this(new Game())
-
-  override def toString: String = game.field.muehleMatrix.toString
+  
 
   //-----------------------------------------------------
   //mechanic
@@ -37,5 +37,21 @@ case class Controller(var game: Game) extends Observable {
     game = game.removeStone(newRing, newPosOnRing)
     notifyObservers()
   }
+
+  //-----------------------------------------------------
+  //field
+  //-----------------------------------------------------
+
+  override def toString: String = game.field.muehleMatrix.toString
+
+  def setDecorator(enabled: Boolean): Unit = {
+    game.setDecorator(enabled)
+  }
+
+  def getMesh: meshComponentInterface = {
+    game.getMesh
+  }
+  
+  
 }
 

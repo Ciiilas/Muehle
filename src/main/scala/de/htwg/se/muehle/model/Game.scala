@@ -66,9 +66,23 @@ case class Game(mech: Mechanic, field: Gamefield) {
   //gamefield
   //-----------------------------------------------------
 
-  def mesh(): String = {
-    field.meshMesh()
+  private var useDecorator: Boolean = false
+
+  def setDecorator(enabled: Boolean): Unit = {
+    useDecorator = enabled
   }
+
+  def getMesh: meshComponentInterface = {
+    val baseMesh = new ConcreteMesh(field)
+    if (useDecorator) {
+      new ConcreteDecoratorMesh(baseMesh) 
+    } else {
+      baseMesh
+    }
+  }
+
+  
+  
 
 
 }
