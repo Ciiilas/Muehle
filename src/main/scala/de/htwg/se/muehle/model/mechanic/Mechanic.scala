@@ -5,7 +5,7 @@ import de.htwg.se.muehle.model.gamefield.{Gamefield, Stone}
 case class Mechanic(evaluateStrategy: EvaluateStrategy = new ComplexEvaltuateStrategy) {
   
   // Methode zur Überprüfung eines Zugs
-  private def isMoveAllowed(field: Gamefield, oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Boolean = {
+  def isMoveAllowed(field: Gamefield, oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Boolean = {
     // Prüfen, ob die neue Position innerhalb der Spielfeldgrenzen liegt
     val isWithinBounds =
       newRing >= 0 && newRing < field.muehleMatrix.size &&
@@ -31,7 +31,7 @@ case class Mechanic(evaluateStrategy: EvaluateStrategy = new ComplexEvaltuateStr
       )
   }
 
-  private def countStones(field: Gamefield, stoneColor: Stone): Int = {
+  def countStones(field: Gamefield, stoneColor: Stone): Int = {
     field.muehleMatrix.flatten.count((stone:Stone) => stone == stoneColor)
   }
   
