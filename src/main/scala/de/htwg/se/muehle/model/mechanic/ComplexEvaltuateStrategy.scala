@@ -12,7 +12,7 @@ class ComplexEvaltuateStrategy extends EvaluateStrategy {
           return true
         }
         //checking other Rings
-        if (field.muehleMatrix((newRing - 1 + 3) % 3) == stone && field.muehleMatrix((newRing + 1) % 3) == stone) {
+        if (field.muehleMatrix((newRing - 1 + 3) % 3)(newPosOnRing) == stone && field.muehleMatrix((newRing + 1) % 3)(newPosOnRing) == stone) {
           return true
         }
         return false

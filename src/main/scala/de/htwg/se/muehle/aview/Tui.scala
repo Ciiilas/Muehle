@@ -2,7 +2,6 @@ package de.htwg.se.muehle
 package aview
 
 import de.htwg.se.muehle.controller.Controller
-import de.htwg.se.muehle.model.gamefield.Mesh
 import util.Observer
 
 import scala.io.StdIn

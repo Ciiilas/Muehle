@@ -1,5 +1,6 @@
 package de.htwg.se.muehle.model.mechanic
 
+import de.htwg.se.muehle.model.PlayerState
 import de.htwg.se.muehle.model.gamefield.{Gamefield, Stone}
 
 case class Mechanic(evaluateStrategy: EvaluateStrategy = new ComplexEvaltuateStrategy) {
@@ -128,6 +129,16 @@ case class Mechanic(evaluateStrategy: EvaluateStrategy = new ComplexEvaltuateStr
   }
 
   def isRemoveLegal(field: Gamefield, ring: Int, posOnRing: Int, stone: Stone): Boolean = {
+    PlayerState.next()
+    val opponentStone = PlayerState.stone
+    PlayerState.next()
+    
+//    if (evaluateStrategy.checkForMuehle(field, ring, posOnRing, PlayerState.stone)) {
+//      println("Error! Stein befindet sich in einer Mühle und darf nicht entfernt werden!")
+//      return false
+//    }
+    
+
     if (!(ring >= 0 && ring < field.muehleMatrix.size &&
       posOnRing >= 0 && posOnRing < field.muehleMatrix(ring).size)) {
       println("Error! Position ist außerhalb des Spielfeldes")
@@ -141,10 +152,22 @@ case class Mechanic(evaluateStrategy: EvaluateStrategy = new ComplexEvaltuateStr
 
     if (field.muehleMatrix(ring)(posOnRing) == Stone.Empty) {
       println("Error! Die Position die Sie entfernen wollen ist Leer!")
-      false
-    } else {
-      true
+      return false
     }
+
+    if (evaluateStrategy.checkForMuehle(field, ring, posOnRing, opponentStone)) {
+      val removableStones = for {
+        r <- field.muehleMatrix.indices
+        p <- field.muehleMatrix(r).indices
+        if field.muehleMatrix(r)(p) == opponentStone && !evaluateStrategy.checkForMuehle(field, r, p, opponentStone)
+      } yield (r, p)
+
+      if (removableStones.nonEmpty) {
+        println("Error! Es gibt andere Steine, die entfernt werden können!")
+        return false
+      }
+    }
+    true
   }
 
   def removeStone(field: Gamefield, ring: Int, posOnRing: Int, stone: Stone): Gamefield = {
