@@ -6,12 +6,12 @@ class ComplexEvaltuateStrategy extends EvaluateStrategy {
   override def checkForMuehle(field: Gamefield, newRing: Int, newPosOnRing: Int, stone: Stone): Boolean = {
       //check Muehle from Ring Center
       if (newPosOnRing % 2 == 1) {
-        //checking left right
+        //checking On Ring
         //newPosOnRing == (oldPosOnRing + 1) % 8 || newPosOnRing == (oldPosOnRing - 1 + 8) % 8
         if (field.muehleMatrix(newRing)((newPosOnRing - 1 + 8) % 8) == stone && field.muehleMatrix(newRing)((newPosOnRing + 1) % 8) == stone) {
           return true
         }
-        //checking down up
+        //checking other Rings
         if (field.muehleMatrix((newRing - 1 + 3) % 3) == stone && field.muehleMatrix((newRing + 1) % 3) == stone) {
           return true
         }
