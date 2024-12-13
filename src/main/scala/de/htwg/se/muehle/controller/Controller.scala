@@ -2,9 +2,11 @@ package de.htwg.se.muehle
 package controller
 
 import util.Observable
+
 import de.htwg.se.muehle.model.gamefield.{Gamefield, meshComponentInterface}
 import de.htwg.se.muehle.model.{Game, PlayerState}
 import de.htwg.se.muehle.model.mechanic.Mechanic
+import de.htwg.se.muehle.util.Event.Move
 import de.htwg.se.muehle.util.{Command, UndoManager}
 
 
@@ -21,7 +23,7 @@ case class Controller(var game: Game) extends Observable {
   def undo(): Unit = {
     game = undoManager.undoStep(game)
     PlayerState.next()
-    notifyObservers()
+    notifyObservers(Move)
   }
 
   //-----------------------------------------------------
@@ -33,7 +35,7 @@ case class Controller(var game: Game) extends Observable {
 
   def doStep(command: Command[Game]): Unit = {
     game = undoManager.doStep(game, command)
-    notifyObservers()
+    notifyObservers(Move)
   }
 
   def setStone(newRing: Int, newPosOnRing: Int): Unit = {

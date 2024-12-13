@@ -81,7 +81,7 @@ class Tui(controller: Controller) extends Observer {
     }
   }
 
-  override def update(): Unit = {
+  override def update(e: de.htwg.se.muehle.util.Event): Unit = {
     controller.setDecorator(true) // Dekorator ausschalten
     println(controller.getMesh.render())
   }
