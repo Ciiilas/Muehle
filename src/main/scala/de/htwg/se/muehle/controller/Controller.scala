@@ -8,6 +8,7 @@ import de.htwg.se.muehle.model.{Game, PlayerState}
 import de.htwg.se.muehle.model.mechanic.Mechanic
 import de.htwg.se.muehle.util.Event.Move
 import de.htwg.se.muehle.util.{Command, UndoManager}
+import de.htwg.se.muehle.model.gamefield.Stone
 
 
 case class Controller(var game: Game) extends Observable {
@@ -58,6 +59,8 @@ case class Controller(var game: Game) extends Observable {
   def checkForMuehle(ring: Int, posOnRing: Int): Boolean = {
     game.isMuehle(ring, posOnRing)
   }
+  
+  
 
   //-----------------------------------------------------
   //field
@@ -73,7 +76,13 @@ case class Controller(var game: Game) extends Observable {
   def getMesh: meshComponentInterface = {
     game.getMesh
   }
-  
+
+  //-----------------------------------------------------
+  //game
+  //-----------------------------------------------------
+  def getCurrentPlayerState(): Stone = {
+    game.getCurrentPlayerState()
+  }
   
 }
 

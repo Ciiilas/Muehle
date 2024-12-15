@@ -3,10 +3,7 @@ package muehle
 
 import de.htwg.se.muehle.aview.{Gui, Tui}
 import de.htwg.se.muehle.controller.Controller
-
 import de.htwg.se.muehle.model.gamefield.Mesh
-
-
 
 
 object Muehle {

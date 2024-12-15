@@ -3,6 +3,9 @@ package de.htwg.se.muehle.model
 import de.htwg.se.muehle.model.mechanic.*
 import de.htwg.se.muehle.model.gamefield.*
 
+
+
+
 case class Game(mech: Mechanic, field: Gamefield, var muehleBoolean: Boolean) {
   def this() = this(Mechanic(), new Gamefield(), false)
   def this(gamefield: Gamefield) = this(Mechanic(), gamefield, false)
@@ -107,6 +110,15 @@ case class Game(mech: Mechanic, field: Gamefield, var muehleBoolean: Boolean) {
     }
   }
 
+
+  //-----------------------------------------------------
+  //game
+  //-----------------------------------------------------
+  
+  def getCurrentPlayerState(): Stone = {
+    PlayerState.stone
+  }
+
 }
 
 
@@ -116,6 +128,5 @@ object PlayerState:
   def player: String = stone.toString
   def next(): Unit = if stone.equals(Stone.White) then stone = Stone.Black else stone = Stone.White
   var roundCount: Int = 0
-  def incrementCount():Unit = if stone.equals(Stone.White) then roundCount = roundCount + 1 else roundCount = roundCount
-
+  def incrementCount(): Unit = if stone.equals(Stone.White) then roundCount = roundCount + 1 else roundCount = roundCount
 
