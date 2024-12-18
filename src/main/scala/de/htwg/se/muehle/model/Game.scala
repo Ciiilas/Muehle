@@ -127,6 +127,10 @@ object PlayerState:
   def getStone: Stone = stone
   def player: String = stone.toString
   def next(): Unit = if stone.equals(Stone.White) then stone = Stone.Black else stone = Stone.White
+  def undo(): Unit = {
+    if stone.equals(Stone.White) then stone = Stone.Black else stone = Stone.White
+    if stone.equals(Stone.White) then roundCount = roundCount - 1 else roundCount = roundCount
+  }
   var roundCount: Int = 0
   def incrementCount(): Unit = if stone.equals(Stone.White) then roundCount = roundCount + 1 else roundCount = roundCount
 

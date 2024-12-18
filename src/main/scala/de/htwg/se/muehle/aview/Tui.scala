@@ -4,6 +4,8 @@ package aview
 import de.htwg.se.muehle.controller.Controller
 import util.Observer
 
+import de.htwg.se.muehle.util.Event
+
 import scala.io.StdIn
 
 class Tui(controller: Controller) extends Observer {
@@ -81,7 +83,7 @@ class Tui(controller: Controller) extends Observer {
     }
   }
 
-  override def update(e: de.htwg.se.muehle.util.Event): Unit = {
+  override def update(e: Event): Unit = {
     controller.setDecorator(true) // Dekorator ausschalten
     println(controller.getMesh.render())
   }

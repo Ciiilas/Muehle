@@ -15,7 +15,4 @@ trait Observable:
 
 enum Event:
   case Set
-  case Move
-  case Jump
-  case Remove
   case Quit

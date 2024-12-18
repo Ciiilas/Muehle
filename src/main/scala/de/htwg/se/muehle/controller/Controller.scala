@@ -6,7 +6,7 @@ import util.Observable
 import de.htwg.se.muehle.model.gamefield.{Gamefield, meshComponentInterface}
 import de.htwg.se.muehle.model.{Game, PlayerState}
 import de.htwg.se.muehle.model.mechanic.Mechanic
-import de.htwg.se.muehle.util.Event.Move
+import de.htwg.se.muehle.util.Event
 import de.htwg.se.muehle.util.{Command, UndoManager}
 import de.htwg.se.muehle.model.gamefield.Stone
 
@@ -23,8 +23,8 @@ case class Controller(var game: Game) extends Observable {
 
   def undo(): Unit = {
     game = undoManager.undoStep(game)
-    PlayerState.next()
-    notifyObservers(Move)
+    PlayerState.undo()
+    notifyObservers(Event.Set)
   }
 
   //-----------------------------------------------------
@@ -36,13 +36,12 @@ case class Controller(var game: Game) extends Observable {
 
   def doStep(command: Command[Game]): Unit = {
     game = undoManager.doStep(game, command)
-    notifyObservers(Move)
+    notifyObservers(Event.Set)
   }
 
   def setStone(newRing: Int, newPosOnRing: Int): Unit = {
     doStep(new SetCommand(game, newRing, newPosOnRing))
   }
-
 
   def moveStone(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Unit = {
     doStep(new MoveCommand(game, oldRing, oldPosOnRing, newRing, newPosOnRing))
@@ -59,8 +58,6 @@ case class Controller(var game: Game) extends Observable {
   def checkForMuehle(ring: Int, posOnRing: Int): Boolean = {
     game.isMuehle(ring, posOnRing)
   }
-  
-  
 
   //-----------------------------------------------------
   //field
@@ -68,6 +65,10 @@ case class Controller(var game: Game) extends Observable {
 
   val field: Gamefield = game.getField
   override def toString: String = game.field.muehleMatrix.toString
+
+  def getMuehleMatrix: Vector[Vector[Stone]] = {
+    game.field.muehleMatrix
+  }
 
   def setDecorator(enabled: Boolean): Unit = {
     game.setDecorator(enabled)
