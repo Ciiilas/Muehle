@@ -9,7 +9,7 @@ class GameSpec extends AnyWordSpec {
 
     "set a stone" in {
       var game = new Game(new Gamefield("EEEEEEEE", 1, 8))
-      game.setStone(0,0) should be(new Game(new Gamefield("WEEEEEEE", 1, 8)))
+      game.setStoneGame(0,0) should be(new Game(new Gamefield("WEEEEEEE", 1, 8)))
 
     }
 

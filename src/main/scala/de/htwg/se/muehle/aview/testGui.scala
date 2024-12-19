@@ -7,6 +7,7 @@ import de.htwg.se.muehle.controller.Controller
 import de.htwg.se.muehle.util.Observer
 import de.htwg.se.muehle.util.Event
 import de.htwg.se.muehle.model.gamefield.Stone
+import de.htwg.se.muehle.model.GameStateEnum
 
 class testGui(controller: Controller) extends SimpleSwingApplication with Observer {
   controller.add(this)
@@ -50,6 +51,8 @@ class testGui(controller: Controller) extends SimpleSwingApplication with Observ
 
     val allSquares: Vector[Vector[(Int, Int)]] = Vector(innerSquare, middleSquare, outerSquare)
 
+    private var firstClick: Option[(Int, Int)] = None
+    
     override def paintComponent(g: Graphics2D): Unit = {
       super.paintComponent(g)
       drawMuehleBoard(g) // Zeichnet das Spielfeld
@@ -94,24 +97,45 @@ class testGui(controller: Controller) extends SimpleSwingApplication with Observ
     listenTo(mouse.clicks)
     reactions += {
       case MouseClicked(_, point, _, _, _) =>
-        val clickedPoint = (point.x, point.y)
+      val clickedPoint = (point.x, point.y)
 
-        val (squareIndex, (pointIndex, closestPoint)) = allSquares.zipWithIndex.flatMap {
-          case (square, index) =>
-            square.zipWithIndex.map { case (p, pointIdx) => (index, (pointIdx, p)) }
-        }.minBy {
-          case (_, (_, (x, y))) => math.sqrt(math.pow(x - clickedPoint._1, 2) + math.pow(y - clickedPoint._2, 2))
+      val (squareIndex, (pointIndex, closestPoint)) = allSquares.zipWithIndex.flatMap {
+        case (square, index) =>
+          square.zipWithIndex.map { case (p, pointIdx) => (index, (pointIdx, p)) }
+      }.minBy {
+        case (_, (_, (x, y))) => math.sqrt(math.pow(x - clickedPoint._1, 2) + math.pow(y - clickedPoint._2, 2))
+      }
+
+      val radius = 40
+      val distance = math.sqrt(math.pow(closestPoint._1 - clickedPoint._1, 2) + math.pow(closestPoint._2 - clickedPoint._2, 2))
+      if (distance <= radius) {
+        controller.getGameState match {
+          case GameStateEnum.SET_STONE =>
+            controller.setStone(squareIndex, pointIndex)
+          case GameStateEnum.MOVE_STONE =>
+            firstClick match {
+              case None =>
+                firstClick = Some((squareIndex, pointIndex))
+              case Some((x, y)) =>
+                controller.moveStone(x, y, squareIndex, pointIndex)
+                firstClick = None
+            }
+          case GameStateEnum.JUMP_STONE =>
+            firstClick match {
+              case None =>
+                firstClick = Some((squareIndex, pointIndex))
+              case Some((x, y)) =>
+                controller.jumpStone(x, y, squareIndex, pointIndex)
+                firstClick = None
+            }
+          case GameStateEnum.REMOVE_STONE =>
+            controller.removeStone(squareIndex, pointIndex)
+          case GameStateEnum.GAME_OVER =>
+            println("Game is over")
         }
-
-        val radius = 40
-        val distance = math.sqrt(math.pow(closestPoint._1 - clickedPoint._1, 2) + math.pow(closestPoint._2 - clickedPoint._2, 2))
-        if (distance <= radius) {
-          println(s"Geklickt auf Quadrat $squareIndex, Punkt-Index: $pointIndex, Position: $closestPoint")
-
-          controller.setStone(squareIndex, pointIndex)
-        } else {
-          println("Kein gültiger Punkt geklickt")
-        }
+      } else {
+        println("Kein gültiger Punkt geklickt")
+      }
     }
   }
 
@@ -134,7 +158,7 @@ class testGui(controller: Controller) extends SimpleSwingApplication with Observ
 
   // Observer Update-Methode
   override def update(e: Event): Unit = {
-    println(controller.getMuehleMatrix)
+    //println(controller.getMuehleMatrix) // Note: Debug-Ausgabe
     boardPanel.repaint()
   }
 }
