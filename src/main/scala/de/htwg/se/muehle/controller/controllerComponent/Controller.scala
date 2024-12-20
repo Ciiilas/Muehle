@@ -1,7 +1,7 @@
 package de.htwg.se.muehle.controller.controllerComponent
 
 import de.htwg.se.muehle.controller.*
-import de.htwg.se.muehle.gameComponent.Game
+import de.htwg.se.muehle.model.gameComponent.Game
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Stone, meshComponentInterface}
 
 import de.htwg.se.muehle.model.{GameStateEnum, gameInterface}

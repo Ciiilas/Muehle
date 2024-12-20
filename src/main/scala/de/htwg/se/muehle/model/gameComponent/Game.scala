@@ -1,4 +1,4 @@
-package de.htwg.se.muehle.gameComponent
+package de.htwg.se.muehle.model.gameComponent
 
 import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.*

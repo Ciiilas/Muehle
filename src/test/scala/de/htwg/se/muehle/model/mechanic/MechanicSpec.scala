@@ -1,6 +1,6 @@
 package de.htwg.se.muehle.model.mechanic
 
-import de.htwg.se.muehle.gameComponent.Game
+import de.htwg.se.muehle.model.gameComponent.Game
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Gamefield, Stone}
 import de.htwg.se.muehle.model.mechanicComponent.mechanic.Mechanic
 import org.scalatest.matchers.should.Matchers.*

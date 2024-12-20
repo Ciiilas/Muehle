@@ -3,7 +3,7 @@ package muehle
 
 import de.htwg.se.muehle.aview.{Gui, Tui, testGui}
 import de.htwg.se.muehle.controller.controllerComponent.Controller
-import de.htwg.se.muehle.gameComponent.Game
+import de.htwg.se.muehle.model.gameComponent.Game
 import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.Gamefield
 import de.htwg.se.muehle.model.gameInterface

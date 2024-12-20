@@ -2,7 +2,6 @@ package de.htwg.se.muehle
 package aview
 
 import de.htwg.se.muehle.controller.controllerComponent.Controller
-import de.htwg.se.muehle.gameComponent.Game
 import scala.swing.*
 import scala.swing.BorderPanel.Position
 import java.awt.{Color, Graphics2D}
@@ -11,6 +10,7 @@ import de.htwg.se.muehle.model.gameFieldComponent.gamefield.Stone
 import de.htwg.se.muehle.util.Observer
 import de.htwg.se.muehle.util.Event
 import de.htwg.se.muehle.model.GameStateEnum
+import de.htwg.se.muehle.model.gameComponent.Game
 
 class testGui(controller: Controller) extends SimpleSwingApplication with Observer {
   controller.add(this)

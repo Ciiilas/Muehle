@@ -1,6 +1,6 @@
 package de.htwg.se.muehle.model
 
-import de.htwg.se.muehle.gameComponent.Game
+import de.htwg.se.muehle.model.gameComponent.Game
 import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Gamefield, Stone, meshComponentInterface}
 import de.htwg.se.muehle.model.mechanicComponent.mechanic.Mechanic
