@@ -1,6 +1,6 @@
 package de.htwg.se.muehle.controller
 
-import de.htwg.se.muehle.model.{PlayerState, gameInterface}
+import de.htwg.se.muehle.model.gameInterface
 import de.htwg.se.muehle.util.Command
 
 class SetCommand(game: gameInterface, newRing: Int, newPosOnRing: Int) extends Command[gameInterface] {

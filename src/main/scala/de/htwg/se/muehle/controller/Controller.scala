@@ -12,7 +12,7 @@ import de.htwg.se.muehle.util.{Command, UndoManager}
 
 
 case class Controller(var game: gameInterface) extends controllerInterface(game) with Observable {
-  //def this() = this(new Game()) Note, muss man noch einbauen
+  def this() = this(new Game()) //Note, muss man noch einbauen
 
   //-----------------------------------------------------
   //undoManager

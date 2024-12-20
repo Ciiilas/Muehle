@@ -11,8 +11,8 @@ import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
 
 
 case class Game(mech: mechanicInterface, field: gameFieldInterface, message: Option[String] = None, player: Stone = Stone.White, currentGameState: GameStateEnum = GameStateEnum.SET_STONE) extends gameInterface(mech, field, message, player, currentGameState) {
-  //def this() = this(Mechanic(), new Gamefield()) Note, muss man noch einbauen
-  //def this(gamefield: Gamefield) = this(Mechanic(), gamefield) Note, muss man noch einbauen
+  def this() = this(Mechanic(), new Gamefield()) //Note, muss man noch einbauen
+  def this(gamefield: Gamefield) = this(Mechanic(), gamefield) //Note, muss man noch einbauen
   
   //-----------------------------------------------------
   //mechanic
