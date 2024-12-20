@@ -1,5 +1,6 @@
 package de.htwg.se.muehle
 package aview
+
 import scala.swing._
 import java.awt.{Color, Graphics2D}
 import scala.swing.event.MouseClicked
@@ -11,10 +12,9 @@ import de.htwg.se.muehle.model.GameStateEnum
 
 class testGui(controller: Controller) extends SimpleSwingApplication with Observer {
   controller.add(this)
-  
 
   private val boardPanel: Panel = new Panel {
-    preferredSize = new Dimension(600, 600)
+    preferredSize = new Dimension(600, 650)
 
     val margin = 50
     val boardSize = 500
@@ -52,7 +52,7 @@ class testGui(controller: Controller) extends SimpleSwingApplication with Observ
     val allSquares: Vector[Vector[(Int, Int)]] = Vector(innerSquare, middleSquare, outerSquare)
 
     private var firstClick: Option[(Int, Int)] = None
-    
+
     override def paintComponent(g: Graphics2D): Unit = {
       super.paintComponent(g)
       drawMuehleBoard(g) // Zeichnet das Spielfeld
@@ -97,46 +97,52 @@ class testGui(controller: Controller) extends SimpleSwingApplication with Observ
     listenTo(mouse.clicks)
     reactions += {
       case MouseClicked(_, point, _, _, _) =>
-      val clickedPoint = (point.x, point.y)
+        val clickedPoint = (point.x, point.y)
 
-      val (squareIndex, (pointIndex, closestPoint)) = allSquares.zipWithIndex.flatMap {
-        case (square, index) =>
-          square.zipWithIndex.map { case (p, pointIdx) => (index, (pointIdx, p)) }
-      }.minBy {
-        case (_, (_, (x, y))) => math.sqrt(math.pow(x - clickedPoint._1, 2) + math.pow(y - clickedPoint._2, 2))
-      }
-
-      val radius = 40
-      val distance = math.sqrt(math.pow(closestPoint._1 - clickedPoint._1, 2) + math.pow(closestPoint._2 - clickedPoint._2, 2))
-      if (distance <= radius) {
-        controller.getGameState match {
-          case GameStateEnum.SET_STONE =>
-            controller.setStone(squareIndex, pointIndex)
-          case GameStateEnum.MOVE_STONE =>
-            firstClick match {
-              case None =>
-                firstClick = Some((squareIndex, pointIndex))
-              case Some((x, y)) =>
-                controller.moveStone(x, y, squareIndex, pointIndex)
-                firstClick = None
-            }
-          case GameStateEnum.JUMP_STONE =>
-            firstClick match {
-              case None =>
-                firstClick = Some((squareIndex, pointIndex))
-              case Some((x, y)) =>
-                controller.jumpStone(x, y, squareIndex, pointIndex)
-                firstClick = None
-            }
-          case GameStateEnum.REMOVE_STONE =>
-            controller.removeStone(squareIndex, pointIndex)
-          case GameStateEnum.GAME_OVER =>
-            println("Game is over")
+        val (squareIndex, (pointIndex, closestPoint)) = allSquares.zipWithIndex.flatMap {
+          case (square, index) =>
+            square.zipWithIndex.map { case (p, pointIdx) => (index, (pointIdx, p)) }
+        }.minBy {
+          case (_, (_, (x, y))) => math.sqrt(math.pow(x - clickedPoint._1, 2) + math.pow(y - clickedPoint._2, 2))
         }
-      } else {
-        println("Kein gültiger Punkt geklickt")
-      }
+
+        val radius = 40
+        val distance = math.sqrt(math.pow(closestPoint._1 - clickedPoint._1, 2) + math.pow(closestPoint._2 - clickedPoint._2, 2))
+        if (distance <= radius) {
+          controller.getGameState match {
+            case GameStateEnum.SET_STONE =>
+              controller.setStone(squareIndex, pointIndex)
+            case GameStateEnum.MOVE_STONE =>
+              firstClick match {
+                case None =>
+                  firstClick = Some((squareIndex, pointIndex))
+                case Some((x, y)) =>
+                  controller.moveStone(x, y, squareIndex, pointIndex)
+                  firstClick = None
+              }
+            case GameStateEnum.JUMP_STONE =>
+              firstClick match {
+                case None =>
+                  firstClick = Some((squareIndex, pointIndex))
+                case Some((x, y)) =>
+                  controller.jumpStone(x, y, squareIndex, pointIndex)
+                  firstClick = None
+              }
+            case GameStateEnum.REMOVE_STONE =>
+              controller.removeStone(squareIndex, pointIndex)
+            case GameStateEnum.GAME_OVER =>
+              println("Game is over")
+          }
+        } else {
+          println("Kein gültiger Punkt geklickt")
+        }
     }
+  }
+
+  // Label to display status or messages
+  private val statusLabel: Label = new Label {
+    text = "Welcome to the game!" // Initial text
+    preferredSize = new Dimension(600, 50)
   }
 
   def top: MainFrame = new MainFrame {
@@ -153,12 +159,21 @@ class testGui(controller: Controller) extends SimpleSwingApplication with Observ
         })
       }
     }
-    contents = boardPanel
+
+    // Use BorderPanel to add the boardPanel and statusLabel
+    contents = new BorderPanel {
+      layout(boardPanel) = BorderPanel.Position.Center
+      layout(statusLabel) = BorderPanel.Position.South
+    }
   }
 
   // Observer Update-Methode
   override def update(e: Event): Unit = {
-    //println(controller.getMuehleMatrix) // Note: Debug-Ausgabe
     boardPanel.repaint()
+    //todo hier dann die actuelle message holen
+    //statusLabel.text = s"Current game state: ${controller.getGameState}"
   }
 }
+
+
+
