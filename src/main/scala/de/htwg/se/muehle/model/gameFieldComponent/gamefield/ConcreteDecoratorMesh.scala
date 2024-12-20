@@ -1,5 +1,4 @@
-package de.htwg.se.muehle.model.gamefield
-
+package de.htwg.se.muehle.model.gameFieldComponent.gamefield
 
 //Konkreter Dekorator
 case class ConcreteDecoratorMesh(wrappee: meshComponentInterface) extends meshComponentInterface {

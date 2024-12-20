@@ -1,12 +1,10 @@
 package de.htwg.se.muehle.model.mechanic
 
-
-import de.htwg.se.muehle.model.mechanic.Mechanic
-import de.htwg.se.muehle.model.gamefield.Gamefield
 import de.htwg.se.muehle.model.Game
+import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Gamefield, Stone}
+import de.htwg.se.muehle.model.mechanicComponent.mechanic.Mechanic
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
-import de.htwg.se.muehle.model.gamefield.Stone
 
 class MechanicSpec extends AnyWordSpec {
   "Mechanic" should {

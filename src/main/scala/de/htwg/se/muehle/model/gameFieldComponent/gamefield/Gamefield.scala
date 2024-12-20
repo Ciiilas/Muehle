@@ -1,13 +1,11 @@
-package de.htwg.se.muehle.model.gamefield
+package de.htwg.se.muehle.model.gameFieldComponent.gamefield
 
-import de.htwg.se.muehle.model.gamefield.Stone
+import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
 
 
-case class Gamefield(val muehleMatrix: Vector[Vector[Stone]]) {
+case class Gamefield(muehleMatrix: Vector[Vector[Stone]]) extends gameFieldInterface(muehleMatrix) { 
   def this(n: Int, m: Int, default: Stone) = this(Vector.fill(n)(Vector.fill(m)(Stone.Empty)))
-
   def this() = this(3, 8, Stone.Empty)
-
   def this(boardString: String, rows: Int, cols: Int) = { // val board = new Board("WBEBEWEWE", 2, 5) -> Vector(Vector(White, Black, Empty, Black, Empty), Vector(White, Empty, White, Empty, Empty))
     this(
       boardString
@@ -23,6 +21,8 @@ case class Gamefield(val muehleMatrix: Vector[Vector[Stone]]) {
     )
   }
 
+  def getGameField: Gamefield = this
+  
   // Update method for a specific enumMatrix value at (row, col)
   def withEnumAt(row: Int, col: Int, newEnum: Stone): Gamefield = {
     val updatedMatrix =
@@ -116,43 +116,43 @@ case class Gamefield(val muehleMatrix: Vector[Vector[Stone]]) {
   }
 
 
-  private def barSegmentLeft(times: Int): String = {
+  def barSegmentLeft(times: Int): String = {
     muehleMatrix(times)(0).toString + "─" * (times * 2 + 1)
   }
 
-  private def barSegmentRight(times: Int): String = {
+  def barSegmentRight(times: Int): String = {
     "─" * (times * 2 + 1) + muehleMatrix(times)(2).toString
   }
 
-  private def spacerLeftTop(times: Int): String = {
+  def spacerLeftTop(times: Int): String = {
     val string: String = ("│" + " ") * times
     this.leftSpacer += 1
     string
   }
 
-  private def spacerRightTop(times: Int): String = {
+  def spacerRightTop(times: Int): String = {
     val string: String = (" " + "│") * times
     this.rightSpacer += 1
     string
   }
 
-  private def spacerLeftBottom(times: Int): String = {
+  def spacerLeftBottom(times: Int): String = {
     val string: String = ("│" + " ") * times
     this.leftSpacer -= 1
     string
   }
 
-  private def spacerRightBottom(times: Int): String = {
+  def spacerRightBottom(times: Int): String = {
     val string: String = (" " + "│") * times
     this.rightSpacer -= 1
     string
   }
 
-  private def barSegmentLeftBottom(times: Int): String = {
+  def barSegmentLeftBottom(times: Int): String = {
     muehleMatrix(times)(6).toString + "─" * (times * 2 + 1)
   }
 
-  private def barSegmentRightBottom(times: Int): String = {
+  def barSegmentRightBottom(times: Int): String = {
     "─" * (times * 2 + 1) + muehleMatrix(times)(4).toString
   }
 }

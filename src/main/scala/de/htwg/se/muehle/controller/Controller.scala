@@ -1,23 +1,25 @@
 package de.htwg.se.muehle
 package controller
 
+import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Gamefield, Stone, meshComponentInterface}
 import util.Observable
-import de.htwg.se.muehle.model.gamefield.{Gamefield, meshComponentInterface}
 import de.htwg.se.muehle.model.{Game, GameStateEnum, PlayerState}
-import de.htwg.se.muehle.model.mechanic.Mechanic
+import de.htwg.se.muehle.model.gameInterface
+import de.htwg.se.muehle.model.mechanicComponent.mechanic.Mechanic
 import de.htwg.se.muehle.util.Event
 import de.htwg.se.muehle.util.{Command, UndoManager}
-import de.htwg.se.muehle.model.gamefield.Stone
 
 
-case class Controller(var game: Game) extends Observable {
-  def this() = this(new Game())
+
+case class Controller(var game: gameInterface) extends controllerInterface(game) with Observable {
+  //def this() = this(new Game()) Note, muss man noch einbauen
 
   //-----------------------------------------------------
   //undoManager
   //-----------------------------------------------------
-
-  private val undoManager = new UndoManager[Game]
+  
+  
+  private val undoManager = new UndoManager[gameInterface]
 
 
   def undo(): Unit = {
@@ -29,11 +31,11 @@ case class Controller(var game: Game) extends Observable {
   //mechanic with undoManager inclusive
   //-----------------------------------------------------
 
-  val gamemech: Mechanic = game.getGameMechanic
+  //val gamemech: Mechanic = game.getGameMechanic
 
-  def getGameState: GameStateEnum = game.currentGameState
+  def getGameState: GameStateEnum = game.getCurrentGameState
 
-  def doStep(command: Command[Game]): Unit = {
+  def doStep(command: Command[gameInterface]): Unit = {
     game = undoManager.doStep(game, command)
     notifyObservers(Event.Set)
   }
@@ -61,12 +63,11 @@ case class Controller(var game: Game) extends Observable {
   //-----------------------------------------------------
   //field
   //-----------------------------------------------------
-
-  val field: Gamefield = game.getField
-  override def toString: String = game.field.muehleMatrix.toString
+  
+  override def toString: String = game.getGameField.getMuehleMatrix.toString
 
   def getMuehleMatrix: Vector[Vector[Stone]] = {
-    game.field.muehleMatrix
+    game.getGameField.getMuehleMatrix
   }
 
   def setDecorator(enabled: Boolean): Unit = {
@@ -78,7 +79,7 @@ case class Controller(var game: Game) extends Observable {
   }
   
   def getCurrentPlayer: Stone = {
-    game.player
+    game.getPlayer
   }
   
   def getOpponentPlayer: Stone = {

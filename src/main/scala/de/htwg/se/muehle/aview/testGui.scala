@@ -1,17 +1,23 @@
 package de.htwg.se.muehle
 package aview
-import scala.swing._
+import scala.swing.*
+import scala.swing.BorderPanel.Position
 import java.awt.{Color, Graphics2D}
 import scala.swing.event.MouseClicked
 import de.htwg.se.muehle.controller.Controller
+import de.htwg.se.muehle.model.gameFieldComponent.gamefield.Stone
 import de.htwg.se.muehle.util.Observer
 import de.htwg.se.muehle.util.Event
-import de.htwg.se.muehle.model.gamefield.Stone
-import de.htwg.se.muehle.model.GameStateEnum
+import de.htwg.se.muehle.model.{Game, GameStateEnum}
 
 class testGui(controller: Controller) extends SimpleSwingApplication with Observer {
   controller.add(this)
-  
+
+  private val messageLable: Label = new Label {
+    text = "Willkommen zu Mühle"
+    preferredSize = new Dimension(600, 50)
+  }
+
 
   private val boardPanel: Panel = new Panel {
     preferredSize = new Dimension(600, 600)
@@ -55,12 +61,13 @@ class testGui(controller: Controller) extends SimpleSwingApplication with Observ
     
     override def paintComponent(g: Graphics2D): Unit = {
       super.paintComponent(g)
-      drawMuehleBoard(g) // Zeichnet das Spielfeld
-    }
+      drawMuehleBoard(g) // Zeichnet den Rahmen um den geklickten Punkt
+      }
 
     def drawMuehleBoard(g: Graphics2D): Unit = {
       g.setColor(new Color(255, 255, 200))
       g.fillRect(0, 0, size.width, size.height)
+
 
       g.setColor(Color.BLACK)
       for (i <- 0 to 2) {
@@ -69,10 +76,13 @@ class testGui(controller: Controller) extends SimpleSwingApplication with Observ
         g.drawRect(offset, offset, size, size)
       }
 
+
       g.drawLine(outer, centerY, inner, centerY)
       g.drawLine(outer + sizeOuter, centerY, inner + sizeInner, centerY)
       g.drawLine(centerX, outer, centerX, inner)
       g.drawLine(centerX, outer + sizeOuter, centerX, inner + sizeInner)
+
+      drawClickedPointBorder(g)
 
       for ((square, squareIndex) <- allSquares.zipWithIndex) {
         for (((x, y), pointIndex) <- square.zipWithIndex) {
@@ -94,6 +104,15 @@ class testGui(controller: Controller) extends SimpleSwingApplication with Observ
       }
     }
 
+    private var clickedPoint: Option[(Int, Int)] = None
+
+    def drawClickedPointBorder(g: Graphics2D): Unit = {
+      clickedPoint.foreach { case (x, y) =>
+        g.setColor(Color.BLUE)
+        g.fillOval(x - 15, y - 15, 30, 30)
+      }
+    }
+
     listenTo(mouse.clicks)
     reactions += {
       case MouseClicked(_, point, _, _, _) =>
@@ -109,6 +128,8 @@ class testGui(controller: Controller) extends SimpleSwingApplication with Observ
       val radius = 40
       val distance = math.sqrt(math.pow(closestPoint._1 - clickedPoint._1, 2) + math.pow(closestPoint._2 - clickedPoint._2, 2))
       if (distance <= radius) {
+        this.clickedPoint = Some(closestPoint)
+        this.repaint()
         controller.getGameState match {
           case GameStateEnum.SET_STONE =>
             controller.setStone(squareIndex, pointIndex)
@@ -153,12 +174,16 @@ class testGui(controller: Controller) extends SimpleSwingApplication with Observ
         })
       }
     }
-    contents = boardPanel
+    contents = new BorderPanel {
+      layout(boardPanel) = BorderPanel.Position.Center
+      layout(messageLable) = BorderPanel.Position.South
+    }
   }
 
   // Observer Update-Methode
   override def update(e: Event): Unit = {
     //println(controller.getMuehleMatrix) // Note: Debug-Ausgabe
+    messageLable.text = controller.game.asInstanceOf[Game].message.getOrElse("Mühle-Spielfeld")
     boardPanel.repaint()
   }
 }

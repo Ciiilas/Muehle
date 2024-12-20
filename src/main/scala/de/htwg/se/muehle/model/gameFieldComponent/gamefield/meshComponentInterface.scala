@@ -1,4 +1,4 @@
-package de.htwg.se.muehle.model.gamefield
+package de.htwg.se.muehle.model.gameFieldComponent.gamefield
 
 //Component-Interface
 trait meshComponentInterface {

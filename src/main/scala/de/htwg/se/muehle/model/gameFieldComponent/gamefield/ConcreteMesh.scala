@@ -1,4 +1,4 @@
-package de.htwg.se.muehle.model.gamefield
+package de.htwg.se.muehle.model.gameFieldComponent.gamefield
 
 //Basis-Komponente(Concrete Component)
 case class ConcreteMesh(model: Gamefield) extends meshComponentInterface {

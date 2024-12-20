@@ -1,99 +1,99 @@
 package de.htwg.se.muehle.model
 
 
-import de.htwg.se.muehle.model.mechanic.*
-import de.htwg.se.muehle.model.gamefield.*
+import de.htwg.se.muehle.model.GameStateEnum
+import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
+import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{ConcreteDecoratorMesh, ConcreteMesh, Gamefield, Stone, meshComponentInterface}
+import de.htwg.se.muehle.model.mechanicComponent.mechanic.*
+import de.htwg.se.muehle.model.gameFieldComponent.gamefield.*
+import de.htwg.se.muehle.model.mechanicComponent.mechanic.Mechanic
+import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
 
 
-case class Game(mech: Mechanic, field: Gamefield, var message: Option[String] = None, var player: Stone = Stone.White, var currentGameState: GameStateEnum = GameStateEnum.SET_STONE) {
-  def this() = this(Mechanic(), new Gamefield())
-  def this(gamefield: Gamefield) = this(Mechanic(), gamefield)
-
+case class Game(mech: mechanicInterface, field: gameFieldInterface, message: Option[String] = None, player: Stone = Stone.White, currentGameState: GameStateEnum = GameStateEnum.SET_STONE) extends gameInterface(mech, field, message, player, currentGameState) {
+  //def this() = this(Mechanic(), new Gamefield()) Note, muss man noch einbauen
+  //def this(gamefield: Gamefield) = this(Mechanic(), gamefield) Note, muss man noch einbauen
+  
   //-----------------------------------------------------
   //mechanic
   //-----------------------------------------------------
-  def getGameMechanic: Mechanic = mech
+  //def getGameMechanic: mechanicInterface = mech
+
 
   def setStoneGame(ring: Int, posOnRing: Int): Game = {
-    this.currentGameState = checkAndSetGameState()
-    if (currentGameState == GameStateEnum.SET_STONE) {
+    val gameState = checkAndSetGameState()
+    if (gameState == GameStateEnum.SET_STONE) {
       if (mech.isSetLegal(field, ring, posOnRing)) {
-        println("setCount Before: " + mech.setCount)
         val (newMech, newField) = mech.setStone(field, ring, posOnRing, PlayerState.stone)
-        println("setCount After: " + newMech.setCount)
+        val currentPlayer: Stone = PlayerState.stone // hilfsvalue um den Spieler temporär zu speichern
         if (!isMuehle(ring, posOnRing)) {
-          val currentPlayer: Stone = PlayerState.stone // hilfsvalue um den Spieler temporär zu speichern
           PlayerState.next()
-          this.player = PlayerState.stone
-          return Game(newMech, newField, Some(currentPlayer.toString + " hat einen Stein gesetzt!"), player, currentGameState)
+          val playerStone = PlayerState.stone
+          return Game(newMech, newField, Some(currentPlayer.toString + " hat einen Stein gesetzt!"), playerStone, gameState)
         } else {
-          this.currentGameState = GameStateEnum.REMOVE_STONE
-          return Game(newMech, newField, Some(this.player.toString + " hat eine Mühle! Bitte wählen Sie einen Stein den Sie entfernen möchten!"), player, currentGameState)
+          return Game(newMech, newField, Some(currentPlayer.toString + " hat eine Mühle! Bitte wählen Sie einen Stein den Sie entfernen möchten!"), currentPlayer, GameStateEnum.REMOVE_STONE)
         }
       }
-      return Game(mech, field, Some("Error! Der Stein darf hier nicht Platziert werden!"), player, currentGameState)
+      return Game(mech, field, Some("Error! Der Stein darf hier nicht Platziert werden!"), player, gameState)
     }
-    Game(mech, field, Some("Error! Aktuell darf kein Stein gesetzt werden, versuchen Sie einen anderen Befehl!"), player, currentGameState)
+    Game(mech, field, Some("Error! Aktuell darf kein Stein gesetzt werden, versuchen Sie einen anderen Befehl!"), player, gameState)
   }
 
   def moveStoneGame(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Game = {
-    this.currentGameState = checkAndSetGameState()
-    if (this.currentGameState == GameStateEnum.MOVE_STONE) {
+    val gameState = checkAndSetGameState()
+    if (gameState == GameStateEnum.MOVE_STONE) {
       if (mech.isMoveLegal(field, oldRing, oldPosOnRing, newRing, newPosOnRing, PlayerState.stone)) {
-        val newField: Gamefield = mech.moveStone(field, oldRing, oldPosOnRing, newRing, newPosOnRing, PlayerState.stone)
+        val newField: gameFieldInterface = mech.moveStone(field, oldRing, oldPosOnRing, newRing, newPosOnRing, PlayerState.stone)
+        val currentPlayer: Stone = PlayerState.stone // hilfsvalue um den Spieler temporär zu speichern
         if (!isMuehle(newRing, newPosOnRing)) {
-          val currentPlayer: Stone = PlayerState.stone // hilfsvalue um den Spieler temporär zu speichern
+         
           PlayerState.next()
-          this.player = PlayerState.stone
-          return Game(mech, newField, Some(this.player.toString + " hat einen Stein bewegt!"), player, currentGameState)
+          val playerStone = PlayerState.stone
+          return Game(mech, newField, Some(currentPlayer.toString + " hat einen Stein bewegt!"), playerStone, gameState)
         } else {
-          this.currentGameState = GameStateEnum.REMOVE_STONE
-          return Game(mech, newField, Some(this.player.toString + " hat eine Mühle! Bitte wählen Sie einen Stein den Sie entfernen möchten!"), player, currentGameState)
+          return Game(mech, newField, Some(currentPlayer.toString + " hat eine Mühle! Bitte wählen Sie einen Stein den Sie entfernen möchten!"), currentPlayer, GameStateEnum.REMOVE_STONE)
         }
       }
-      return Game(mech, field, Some("Error! Der Stein darf hier nicht bewegt werden!"), player, currentGameState)
+      return Game(mech, field, Some("Error! Der Stein darf hier nicht bewegt werden!"), player, gameState)
     }
-    Game(mech, field, Some("Error! Es darf aktuell kein Stein Bewegt werden!"), player, currentGameState)
+    Game(mech, field, Some("Error! Es darf aktuell kein Stein Bewegt werden!"), player, gameState)
   }
 
   def jumpStoneGame(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Game = {
-    this.currentGameState = checkAndSetGameState()
-    if (this.currentGameState == GameStateEnum.JUMP_STONE) {
-      if (mech.isJumpLegal(field, oldRing, oldPosOnRing, newRing, newPosOnRing, PlayerState.stone)) {
-        val newField: Gamefield = mech.jumpStone(field, oldRing, oldPosOnRing, newRing, newPosOnRing, PlayerState.stone)
+    val gameState = checkAndSetGameState()
+    if (gameState == GameStateEnum.JUMP_STONE) {
+      if (mech.isJumpLegal(field.asInstanceOf[Gamefield], oldRing, oldPosOnRing, newRing, newPosOnRing, PlayerState.stone)) {
+        val newField: gameFieldInterface = mech.jumpStone(field.asInstanceOf[Gamefield], oldRing, oldPosOnRing, newRing, newPosOnRing, PlayerState.stone)
+        val currentPlayer: Stone = PlayerState.stone // hilfsvalue um den Spieler temporär zu speichern
         if (!isMuehle(newRing, newPosOnRing)) {
-          val currentPlayer: Stone = PlayerState.stone // hilfsvalue um den Spieler temporär zu speichern
           PlayerState.next()
-          this.player = PlayerState.stone
-          return Game(mech, newField, Some(PlayerState.opponent.toString + " ist mit einem Stein gesprungen!"), player, currentGameState)
+          return Game(mech, newField, Some(PlayerState.opponent.toString + " ist mit einem Stein gesprungen!"), currentPlayer, gameState)
         } else {
-          this.currentGameState = GameStateEnum.REMOVE_STONE
-          return Game(mech, newField, Some(PlayerState.player + " hat eine Mühle! Bitte wählen Sie einen Stein den Sie entfernen möchten!"), player, currentGameState)
+          return Game(mech, newField, Some(PlayerState.player + " hat eine Mühle! Bitte wählen Sie einen Stein den Sie entfernen möchten!"), currentPlayer, GameStateEnum.REMOVE_STONE)
         }
       }
-      return Game(mech, field, Some("Error! Mit dem Stein darf nicht gesprungen werden!"), player, currentGameState)
+      return Game(mech, field, Some("Error! Mit dem Stein darf nicht gesprungen werden!"), player, gameState)
     }
-    Game(mech, field, Some("Error! Es darf aktuell nicht mit dem Stein gesprungen werden!"), player, currentGameState)
+    Game(mech, field, Some("Error! Es darf aktuell nicht mit dem Stein gesprungen werden!"), player, gameState)
   }
 
   def removeStoneGame(ring: Int, posOnRing: Int): Game = {
     if (!this.currentGameState.equals(GameStateEnum.REMOVE_STONE)) {
       return Game(mech, field, Some("Error! Es gibt keine Mühle, es darf kein Stein entfernt werden!"), player, currentGameState)
     }
+    val currentPlayer: Stone = PlayerState.stone // hilfsvalue um den Spieler temporär zu speichern
     if (mech.isRemoveLegal(field, ring, posOnRing, PlayerState.stone)) {
-      val newField: Gamefield = mech.removeStone(field, ring, posOnRing, PlayerState.stone)
-      val currentPlayer: Stone = PlayerState.stone // hilfsvalue um den Spieler temporär zu speichern
-
+      val newField: gameFieldInterface = mech.removeStone(field, ring, posOnRing, PlayerState.stone)
       PlayerState.next()
-      this.player = PlayerState.stone
-      this.currentGameState = checkAndSetGameState()
-      return Game(mech, newField, Some(currentPlayer.toString + " hat einen Stein entfernt!"), player, currentGameState)
+      
+      val gameState = checkAndSetGameState()
+      return Game(mech, newField, Some(currentPlayer.toString + " hat einen Stein entfernt!"), player, gameState)
     }
-    Game(mech, field, Some("Error! Der Stein kann nicht entfernt werden!"), player, currentGameState)
+    Game(mech, field, Some("Error! Der Stein kann nicht entfernt werden!"), currentPlayer, currentGameState)
   }
 
   def isMuehle(ring: Int, posOnRing: Int): Boolean = {
-    mech.evaluateStrategy.checkForMuehle(field, ring, posOnRing, PlayerState.stone)
+    mech.getEvaluateStrategy.checkForMuehle(field, ring, posOnRing, PlayerState.stone)
   }
 
   
@@ -101,9 +101,7 @@ case class Game(mech: Mechanic, field: Gamefield, var message: Option[String] = 
   //gameField
   //-----------------------------------------------------
 
-  def getField: Gamefield = field
-
-
+  //def getGameField: gameFieldInterface = field
 
   private var useDecorator: Boolean = false
 
@@ -112,7 +110,7 @@ case class Game(mech: Mechanic, field: Gamefield, var message: Option[String] = 
   }
 
   def getMesh: meshComponentInterface = {
-    val baseMesh = ConcreteMesh(field)
+    val baseMesh = ConcreteMesh(field.asInstanceOf[Gamefield])
     if (useDecorator) {
       ConcreteDecoratorMesh(baseMesh)
     } else {
@@ -127,11 +125,11 @@ case class Game(mech: Mechanic, field: Gamefield, var message: Option[String] = 
   //-----------------------------------------------------
 
   def checkAndSetGameState(): GameStateEnum = {
-    if (mech.setCount < 18) { // 17, da die abfrage vor dem setzen des steins erfolgt //Note: muss noch überprüft werden
+    if (mech.getCounterOfSetStone < 18) { // 17, da die abfrage vor dem setzen des steins erfolgt //Note: muss noch überprüft werden
       GameStateEnum.SET_STONE
-    } else if (mech.setCount == 18 && field.muehleMatrix.flatten.count((stone:Stone) => stone == PlayerState.stone) > 3) {
+    } else if (mech.getCounterOfSetStone == 18 && field.getMuehleMatrix.flatten.count((stone:Stone) => stone == PlayerState.stone) > 3) {
       GameStateEnum.MOVE_STONE
-    } else if (mech.setCount == 18 && field.muehleMatrix.flatten.count((stone:Stone) => stone == PlayerState.stone) == 3) {
+    } else if (mech.getCounterOfSetStone == 18 && field.getMuehleMatrix.flatten.count((stone:Stone) => stone == PlayerState.stone) == 3) {
       GameStateEnum.JUMP_STONE
     } else {
       GameStateEnum.GAME_OVER

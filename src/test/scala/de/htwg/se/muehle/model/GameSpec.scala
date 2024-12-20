@@ -1,6 +1,6 @@
 package de.htwg.se.muehle.model
 
-import de.htwg.se.muehle.model.gamefield.Gamefield
+import de.htwg.se.muehle.model.gameFieldComponent.gamefield.Gamefield
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
