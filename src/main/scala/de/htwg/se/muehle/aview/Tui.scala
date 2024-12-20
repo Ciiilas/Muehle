@@ -2,8 +2,8 @@ package de.htwg.se.muehle
 package aview
 
 import de.htwg.se.muehle.controller.Controller
+import de.htwg.se.muehle.model.GameStateEnum
 import util.Observer
-
 import de.htwg.se.muehle.util.Event
 
 import scala.io.StdIn
@@ -13,6 +13,8 @@ class Tui(controller: Controller) extends Observer {
 
   def run(): Unit = {
     while (true) {
+      println("Please enter your command:")
+
       try {
         val textInput: String = StdIn.readLine()
         val textProcessing: Array[String] = textInput.split(" ")
@@ -32,17 +34,17 @@ class Tui(controller: Controller) extends Observer {
               textProcessing(0) match {
                 case "set" => println(s"try to set Stone at: (${coords(0)(0)}, ${coords(0)(1)})")
                   controller.setStone(coords(0)(0), coords(0)(1))
-                  if(controller.getMuehleBoolean) {
+                  if(controller.game.currentGameState == GameStateEnum.REMOVE_STONE) {
                     muehle()
                   }
                 case "move" => println(s"try to move from: (${coords(0)(0)}, ${coords(0)(1)}) to (${coords(1)(0)}, ${coords(1)(1)})")
                   controller.moveStone(coords(0)(0), coords(0)(1), coords(1)(0), coords(1)(1))
-                  if(controller.checkForMuehle(coords(1)(0), coords(1)(1))) {
+                  if(controller.game.currentGameState == GameStateEnum.REMOVE_STONE) {
                     muehle()
                   }
                 case "jump" => println(s"try to jump from: (${coords(0)(0)}, ${coords(0)(1)}) to (${coords(1)(0)}, ${coords(1)(1)})")
                   controller.jumpStone(coords(0)(0), coords(0)(1), coords(1)(0), coords(1)(1))
-                  if(controller.checkForMuehle(coords(1)(0), coords(1)(1))) {
+                  if(controller.game.currentGameState == GameStateEnum.REMOVE_STONE) {
                     muehle()
                   }
                 case "remove" => println(s"try to remove Stone at: (${coords(0)(0)}, ${coords(0)(1)})")
@@ -86,5 +88,8 @@ class Tui(controller: Controller) extends Observer {
   override def update(e: Event): Unit = {
     controller.setDecorator(true) // Dekorator ausschalten
     println(controller.getMesh.render())
+    println(controller.game.message.get)
+    println("Spieler: " + controller.game.player.toString + " ist am Zug")
+    println("setCoutn: " + controller.game.mech.setCount)
   }
 }

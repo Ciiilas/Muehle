@@ -2,9 +2,8 @@ package de.htwg.se.muehle
 package controller
 
 import util.Observable
-
 import de.htwg.se.muehle.model.gamefield.{Gamefield, meshComponentInterface}
-import de.htwg.se.muehle.model.{Game, PlayerState}
+import de.htwg.se.muehle.model.{Game, GameStateEnum, PlayerState}
 import de.htwg.se.muehle.model.mechanic.Mechanic
 import de.htwg.se.muehle.util.Event
 import de.htwg.se.muehle.util.{Command, UndoManager}
@@ -23,7 +22,6 @@ case class Controller(var game: Game) extends Observable {
 
   def undo(): Unit = {
     game = undoManager.undoStep(game)
-    PlayerState.undo()
     notifyObservers(Event.Set)
   }
 
@@ -32,7 +30,8 @@ case class Controller(var game: Game) extends Observable {
   //-----------------------------------------------------
 
   val gamemech: Mechanic = game.getGameMechanic
-  def getMuehleBoolean: Boolean = game.muehleBoolean
+
+  def getGameState: GameStateEnum = game.currentGameState
 
   def doStep(command: Command[Game]): Unit = {
     game = undoManager.doStep(game, command)
@@ -77,13 +76,13 @@ case class Controller(var game: Game) extends Observable {
   def getMesh: meshComponentInterface = {
     game.getMesh
   }
-
-  //-----------------------------------------------------
-  //game
-  //-----------------------------------------------------
-  def getCurrentPlayerState(): Stone = {
-    game.getCurrentPlayerState()
+  
+  def getCurrentPlayer: Stone = {
+    game.player
   }
   
+  def getOpponentPlayer: Stone = {
+    game.getOpponentPlayer
+  }
 }
 

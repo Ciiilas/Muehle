@@ -1,12 +1,14 @@
 package de.htwg.se.muehle
 package aview
 
-import scala.swing._
-import scala.swing.event._
+import scala.swing.*
+import scala.swing.event.*
 import de.htwg.se.muehle.controller.Controller
+import de.htwg.se.muehle.model.GameStateEnum
 import util.Observer
 import de.htwg.se.muehle.util.Event
-import java.awt.{Graphics2D, Color, BasicStroke}
+
+import java.awt.{BasicStroke, Color, Graphics2D}
 import java.awt.event.{MouseAdapter, MouseEvent}
 
 class Gui(controller: Controller) extends MainFrame with Observer {
@@ -41,12 +43,38 @@ class Gui(controller: Controller) extends MainFrame with Observer {
 class BoardPanel(controller: Controller) extends Panel {
   preferredSize = new Dimension(800, 800)
   background = Color.white
+  private var firstClick: Option[(Int, Int)] = None
 
   listenTo(mouse.clicks)
   reactions += {
     case e: MouseClicked =>
       val gridPos = getGridPosition(e.point)
-      gridPos.foreach { case (i, j) => controller.setStone(i, j) }
+      gridPos.foreach { case (i, j) =>
+        controller.getGameState match {
+          case GameStateEnum.SET_STONE =>
+            controller.setStone(i, j)
+          case GameStateEnum.MOVE_STONE =>
+            firstClick match {
+              case None =>
+                firstClick = Some((i, j))
+              case Some((x, y)) =>
+                controller.moveStone(x, y, i, j)
+                firstClick = None
+            }
+          case GameStateEnum.JUMP_STONE =>
+            firstClick match {
+              case None =>
+                firstClick = Some((i, j))
+              case Some((x, y)) =>
+                controller.jumpStone(x, y, i, j)
+                firstClick = None
+          }
+          case GameStateEnum.REMOVE_STONE =>
+            controller.removeStone(i, j)
+          case GameStateEnum.GAME_OVER => 
+            println("Game is over")
+        }
+      }
   }
 
   override def paintComponent(g: Graphics2D): Unit = {

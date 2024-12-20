@@ -7,7 +7,7 @@ class SetCommand(game: Game, newRing: Int, newPosOnRing: Int) extends Command[Ga
   private var memento: Game = game
   override def doStep(game: Game): Game = {
     memento = game.copy()
-    game.setStone(newRing, newPosOnRing)
+    game.setStoneGame(newRing, newPosOnRing)
   }
 
   override def undoStep(game: Game): Game = {
@@ -20,7 +20,7 @@ class MoveCommand(game: Game, oldRing: Int, oldPosOnRing: Int, newRing: Int, new
   
   override def doStep(game: Game): Game = {
     memento = game.copy()
-    game.moveStone(oldRing, oldPosOnRing, newRing, newPosOnRing)
+    game.moveStoneGame(oldRing, oldPosOnRing, newRing, newPosOnRing)
   }
 
   override def undoStep(game: Game): Game = {
@@ -33,7 +33,7 @@ class JumpCommand(game: Game, oldRing: Int, oldPosOnRing: Int, newRing: Int, new
 
   override def doStep(game: Game): Game = {
     memento = game.copy()
-    game.jumpStone(oldRing, oldPosOnRing, newRing, newPosOnRing)
+    game.jumpStoneGame(oldRing, oldPosOnRing, newRing, newPosOnRing)
   }
 
   override def undoStep(game: Game): Game = {
@@ -46,7 +46,7 @@ class RemoveCommand(game: Game, newRing: Int, newPosOnRing: Int) extends Command
 
   override def doStep(game: Game): Game = {
     memento = game.copy()
-    game.removeStone(newRing, newPosOnRing)
+    game.removeStoneGame(newRing, newPosOnRing)
   }
 
   override def undoStep(game: Game): Game = {
