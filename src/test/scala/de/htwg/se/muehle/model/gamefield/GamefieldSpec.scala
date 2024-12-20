@@ -81,4 +81,12 @@ class GamefieldSpec extends AnyWordSpec {
       "0─────0─────0\n"
     gamefield.mesh() should be(expectedMesh)
   }
+
+  "should change muehlematrix" in {
+    val field = new Gamefield("EEEEEEEE", 1, 8)
+    field.withEnumAt(0, 0, Stone.White) should be(new Gamefield("WEEEEEEE", 1, 8))
+  }
+  "should made a bar" in {
+    barSegmentLeft(2) should be("--") 
+  }
 }
