@@ -139,6 +139,8 @@ case class Game(mech: Mechanic, field: Gamefield, var message: Option[String] = 
   }
 
   def getOpponentPlayer: Stone = PlayerState.opponent
+
+  override def equals(obj: Any): Boolean = super.equals(obj)
 }
 
 
