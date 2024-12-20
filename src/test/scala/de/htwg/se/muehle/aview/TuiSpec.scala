@@ -5,7 +5,7 @@ import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 import de.htwg.se.muehle.Muehle
 import de.htwg.se.muehle.aview.Tui
-import de.htwg.se.muehle.controller.Controller
+import de.htwg.se.muehle.controller.controllerComponent.Controller
 
 class TuiSpec extends AnyWordSpec {
   "Tui" should {

@@ -1,18 +1,17 @@
-package de.htwg.se.muehle
-package controller
+package de.htwg.se.muehle.controller.controllerComponent
 
-import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Gamefield, Stone, meshComponentInterface}
-import util.Observable
-import de.htwg.se.muehle.model.{Game, GameStateEnum, PlayerState}
-import de.htwg.se.muehle.model.gameInterface
-import de.htwg.se.muehle.model.mechanicComponent.mechanic.Mechanic
-import de.htwg.se.muehle.util.Event
-import de.htwg.se.muehle.util.{Command, UndoManager}
+import de.htwg.se.muehle.controller.*
+import de.htwg.se.muehle.gameComponent.Game
+import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Stone, meshComponentInterface}
+
+import de.htwg.se.muehle.model.{GameStateEnum, gameInterface}
+import de.htwg.se.muehle.util.{Command, Event, Observable, UndoManager}
+
 
 
 
 case class Controller(var game: gameInterface) extends controllerInterface(game) with Observable {
-  def this() = this(new Game()) //Note, muss man noch einbauen
+  //def this() = this(new gameInterface(game))
 
   //-----------------------------------------------------
   //undoManager

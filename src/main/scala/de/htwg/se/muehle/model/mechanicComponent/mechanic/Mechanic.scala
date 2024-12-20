@@ -1,6 +1,6 @@
 package de.htwg.se.muehle.model.mechanicComponent.mechanic
 
-import de.htwg.se.muehle.model.PlayerState
+import de.htwg.se.muehle.gameComponent.PlayerState
 import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Gamefield, Stone}
 import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
