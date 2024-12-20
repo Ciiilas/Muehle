@@ -54,9 +54,9 @@ case class Controller(var game: Game) extends Observable {
     doStep(new RemoveCommand(game, newRing, newPosOnRing))
   }
   
-  def checkForMuehle(ring: Int, posOnRing: Int): Boolean = {
+/*  def checkForMuehle(ring: Int, posOnRing: Int): Boolean = {
     game.isMuehle(ring, posOnRing)
-  }
+  }*/
 
   //-----------------------------------------------------
   //field

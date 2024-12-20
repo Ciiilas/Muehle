@@ -21,7 +21,7 @@ case class Game(mech: Mechanic, field: Gamefield, var message: Option[String] = 
         println("setCount Before: " + mech.setCount)
         val (newMech, newField) = mech.setStone(field, ring, posOnRing, PlayerState.stone)
         println("setCount After: " + newMech.setCount)
-        if (!isMuehle(ring, posOnRing)) {
+        if (!isMuehle(newField, ring, posOnRing)) {
           val currentPlayer: Stone = PlayerState.stone // hilfsvalue um den Spieler temporär zu speichern
           PlayerState.next()
           this.player = PlayerState.stone
@@ -41,7 +41,7 @@ case class Game(mech: Mechanic, field: Gamefield, var message: Option[String] = 
     if (this.currentGameState == GameStateEnum.MOVE_STONE) {
       if (mech.isMoveLegal(field, oldRing, oldPosOnRing, newRing, newPosOnRing, PlayerState.stone)) {
         val newField: Gamefield = mech.moveStone(field, oldRing, oldPosOnRing, newRing, newPosOnRing, PlayerState.stone)
-        if (!isMuehle(newRing, newPosOnRing)) {
+        if (!isMuehle(newField, newRing, newPosOnRing)) {
           val currentPlayer: Stone = PlayerState.stone // hilfsvalue um den Spieler temporär zu speichern
           PlayerState.next()
           this.player = PlayerState.stone
@@ -61,7 +61,7 @@ case class Game(mech: Mechanic, field: Gamefield, var message: Option[String] = 
     if (this.currentGameState == GameStateEnum.JUMP_STONE) {
       if (mech.isJumpLegal(field, oldRing, oldPosOnRing, newRing, newPosOnRing, PlayerState.stone)) {
         val newField: Gamefield = mech.jumpStone(field, oldRing, oldPosOnRing, newRing, newPosOnRing, PlayerState.stone)
-        if (!isMuehle(newRing, newPosOnRing)) {
+        if (!isMuehle(newField, newRing, newPosOnRing)) {
           val currentPlayer: Stone = PlayerState.stone // hilfsvalue um den Spieler temporär zu speichern
           PlayerState.next()
           this.player = PlayerState.stone
@@ -92,7 +92,7 @@ case class Game(mech: Mechanic, field: Gamefield, var message: Option[String] = 
     Game(mech, field, Some("Error! Der Stein kann nicht entfernt werden!"), player, currentGameState)
   }
 
-  def isMuehle(ring: Int, posOnRing: Int): Boolean = {
+  def isMuehle(field: Gamefield, ring: Int, posOnRing: Int): Boolean = {
     mech.evaluateStrategy.checkForMuehle(field, ring, posOnRing, PlayerState.stone)
   }
 
