@@ -1,18 +1,15 @@
-package de.htwg.se.muehle.model
+package de.htwg.se.muehle.model.gameComponent
 
-
-import de.htwg.se.muehle.model.GameStateEnum
 import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
-import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{ConcreteDecoratorMesh, ConcreteMesh, Gamefield, Stone, meshComponentInterface}
-import de.htwg.se.muehle.model.mechanicComponent.mechanic.*
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.*
-import de.htwg.se.muehle.model.mechanicComponent.mechanic.Mechanic
+import de.htwg.se.muehle.model.mechanicComponent.mechanic.*
 import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
+import de.htwg.se.muehle.model.{GameStateEnum, gameInterface}
 
 
 case class Game(mech: mechanicInterface, field: gameFieldInterface, message: Option[String] = None, player: Stone = Stone.White, currentGameState: GameStateEnum = GameStateEnum.SET_STONE) extends gameInterface(mech, field, message, player, currentGameState) {
-  def this() = this(Mechanic(), new Gamefield()) //Note, muss man noch einbauen
-  def this(gamefield: Gamefield) = this(Mechanic(), gamefield) //Note, muss man noch einbauen
+  def this() = this(Mechanic(), new Gamefield())
+  def this(gamefield: Gamefield) = this(Mechanic(), gamefield)
   
   //-----------------------------------------------------
   //mechanic

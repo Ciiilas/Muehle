@@ -1,9 +1,10 @@
 package de.htwg.se.muehle
 package aview
 
-import de.htwg.se.muehle.controller.Controller
+import de.htwg.se.muehle.controller.controllerComponent.Controller
 import de.htwg.se.muehle.model.mechanicComponent.mechanic.Mechanic
-import de.htwg.se.muehle.model.{Game, GameStateEnum}
+import de.htwg.se.muehle.model.GameStateEnum
+import de.htwg.se.muehle.model.gameComponent.Game
 import util.Observer
 import de.htwg.se.muehle.util.Event
 

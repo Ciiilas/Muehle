@@ -1,9 +1,9 @@
 package de.htwg.se.muehle
 package aview
 
+import de.htwg.se.muehle.controller.controllerComponent.Controller
 import scala.swing.*
 import scala.swing.event.*
-import de.htwg.se.muehle.controller.Controller
 import de.htwg.se.muehle.model.GameStateEnum
 import util.Observer
 import de.htwg.se.muehle.util.Event
