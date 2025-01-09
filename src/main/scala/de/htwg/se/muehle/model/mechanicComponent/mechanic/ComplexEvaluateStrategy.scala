@@ -3,7 +3,7 @@ package de.htwg.se.muehle.model.mechanicComponent.mechanic
 import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Gamefield, Stone}
 
-class ComplexEvaltuateStrategy extends EvaluateStrategy {
+class ComplexEvaluateStrategy extends EvaluateStrategy {
   override def checkForMuehle(field: gameFieldInterface, newRing: Int, newPosOnRing: Int, stone: Stone): Boolean = {
       //check Muehle from Ring Center
       if (newPosOnRing % 2 == 1) {

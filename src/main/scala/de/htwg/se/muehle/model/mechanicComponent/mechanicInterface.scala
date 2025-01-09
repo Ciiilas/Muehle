@@ -4,10 +4,10 @@ import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Gamefield, Stone}
 import de.htwg.se.muehle.model.mechanicComponent.mechanic.{EvaluateStrategy, Mechanic}
 
-trait mechanicInterface(CounterOfSetStone: Int, evaluateStrategy: EvaluateStrategy) {
+trait mechanicInterface {
   //Getter
-  def getEvaluateStrategy: EvaluateStrategy = evaluateStrategy
-  def getCounterOfSetStone: Int = CounterOfSetStone
+  def getEvaluateStrategy: EvaluateStrategy
+  def getCounterOfSetStone: Int
   
   //Methoden
   def countStones(field: gameFieldInterface, stoneColor: Stone): Int

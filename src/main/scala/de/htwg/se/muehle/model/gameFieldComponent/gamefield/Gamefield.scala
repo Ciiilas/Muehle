@@ -3,7 +3,7 @@ package de.htwg.se.muehle.model.gameFieldComponent.gamefield
 import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
 
 
-case class Gamefield(muehleMatrix: Vector[Vector[Stone]]) extends gameFieldInterface(muehleMatrix) { 
+case class Gamefield(muehleMatrix: Vector[Vector[Stone]]) extends gameFieldInterface { 
   def this(n: Int, m: Int, default: Stone) = this(Vector.fill(n)(Vector.fill(m)(Stone.Empty)))
   def this() = this(3, 8, Stone.Empty)
   def this(boardString: String, rows: Int, cols: Int) = { // val board = new Board("WBEBEWEWE", 2, 5) -> Vector(Vector(White, Black, Empty, Black, Empty), Vector(White, Empty, White, Empty, Empty))
@@ -21,6 +21,8 @@ case class Gamefield(muehleMatrix: Vector[Vector[Stone]]) extends gameFieldInter
     )
   }
 
+  override def getMuehleMatrix: Vector[Vector[Stone]] = muehleMatrix
+  
   def getGameField: Gamefield = this
   
   // Update method for a specific enumMatrix value at (row, col)

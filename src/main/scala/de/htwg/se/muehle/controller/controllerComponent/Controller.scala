@@ -5,13 +5,17 @@ import de.htwg.se.muehle.model.gameComponent.Game
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Stone, meshComponentInterface}
 import de.htwg.se.muehle.model.{GameStateEnum, gameInterface}
 import de.htwg.se.muehle.util.{Command, Event, Observable, UndoManager}
+import de.htwg.se.muehle.MuehleModule
+import com.google.inject.{Guice, Inject, Injector}
 
 
-
-
-case class Controller(var game: gameInterface) extends controllerInterface(game) with Observable {
+case class Controller @Inject() (var game: gameInterface) extends controllerInterface with Observable {
   //def this() = this(new gameInterface(game))
+  
+  private val injector: Injector = Guice.createInjector(new MuehleModule)
 
+  override def getGame: gameInterface = game
+  
   //-----------------------------------------------------
   //undoManager
   //-----------------------------------------------------

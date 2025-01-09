@@ -10,24 +10,28 @@ import de.htwg.se.muehle.model.gameInterface
 import de.htwg.se.muehle.model.mechanicComponent.mechanic.Mechanic
 import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
 
+import com.google.inject.Guice
 
 object Muehle {
-  val mech: mechanicInterface = new Mechanic
-  val gameField: gameFieldInterface = new Gamefield
-  val game: gameInterface = new Game(mech, gameField)
-  val controller = new Controller(game)
-  val Tui = new Tui(controller)
-  val SimpleSwingGui = new testGui(controller)
-  //val SwingGUI = new Gui(controller)
+
 
 
   def main(args: Array[String]): Unit = {
+    val mech: mechanicInterface = new Mechanic
+    val gameField: gameFieldInterface = new Gamefield
+    val game: gameInterface = Game(mech, gameField)
+    val injector = Guice.createInjector(new MuehleModule)
+    val controller = injector.getInstance(classOf[Controller])
+    val tui = new Tui(controller)
+    val simpleSwingGui = new testGui(controller)
+    //val SwingGUI = new Gui(controller)
+
     println("Welcome to Muehle")
 
-    SimpleSwingGui.top.visible = true
+    simpleSwingGui.top.visible = true
 
     //SwingGUI.visible = true
     
-    Tui.run()
+    tui.run()
   }
 }

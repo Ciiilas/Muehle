@@ -4,8 +4,9 @@ import de.htwg.se.muehle.util.Observer
 import de.htwg.se.muehle.model.{GameStateEnum, gameInterface}
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.Stone
 
-trait controllerInterface(game: gameInterface) {
-  def getGame: gameInterface = game
+trait controllerInterface {
+
+  def getGame: gameInterface
   
   def add(observer: Observer): Unit
   def remove(observer: Observer): Unit

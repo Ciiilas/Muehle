@@ -1,5 +1,11 @@
 package de.htwg.se.muehle.model.gameComponent
 
+import com.google.inject.Inject
+import de.htwg.se.muehle.model.gameFieldComponent.gamefield.*
+import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
+import de.htwg.se.muehle.model.mechanicComponent.mechanic.*
+import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
+import de.htwg.se.muehle.model.{GameStateEnum, gameInterface}
 import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.*
 import de.htwg.se.muehle.model.mechanicComponent.mechanic.*
@@ -7,9 +13,19 @@ import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
 import de.htwg.se.muehle.model.{GameStateEnum, gameInterface}
 
 
-case class Game(mech: mechanicInterface, field: gameFieldInterface, message: Option[String] = None, player: Stone = Stone.White, currentGameState: GameStateEnum = GameStateEnum.SET_STONE) extends gameInterface(mech, field, message, player, currentGameState) {
-  def this() = this(Mechanic(), new Gamefield())
-  def this(gamefield: Gamefield) = this(Mechanic(), gamefield)
+case class Game @Inject() (mech: mechanicInterface, field: gameFieldInterface, message: Option[String] = None, player: Stone = Stone.White, currentGameState: GameStateEnum = GameStateEnum.SET_STONE) extends gameInterface {
+  //def this() = this(Mechanic(), new Gamefield())
+  //def this(gamefield: Gamefield) = this(Mechanic(), gamefield)
+
+  override def getMechanic: mechanicInterface = mech
+
+  override def getGameField: gameFieldInterface = field
+
+  override def getMessage: Option[String] = message
+
+  override def getPlayer: Stone = player
+
+  override def getCurrentGameState: GameStateEnum = currentGameState
   
   //-----------------------------------------------------
   //mechanic

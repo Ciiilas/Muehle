@@ -1,12 +1,17 @@
 package de.htwg.se.muehle.model.mechanicComponent.mechanic
 
+import com.google.inject.Inject
+
 import de.htwg.se.muehle.model.gameComponent.PlayerState
 import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Gamefield, Stone}
 import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
 
-case class Mechanic(/*Note: CounterOfSetStone fragen wegen var/val*/ CounterOfSetStone: Int = 0, evaluateStrategy: EvaluateStrategy = new ComplexEvaltuateStrategy) extends mechanicInterface(CounterOfSetStone, evaluateStrategy) {
+case class Mechanic @Inject (CounterOfSetStone: Int = 0, evaluateStrategy: EvaluateStrategy = new ComplexEvaluateStrategy) extends mechanicInterface {
 
+  override def getEvaluateStrategy: EvaluateStrategy = evaluateStrategy
+
+  override def getCounterOfSetStone: Int = CounterOfSetStone
 
   def countStones(field: gameFieldInterface, stoneColor: Stone): Int = {
     field.getMuehleMatrix.flatten.count((stone: Stone) => stone == stoneColor)

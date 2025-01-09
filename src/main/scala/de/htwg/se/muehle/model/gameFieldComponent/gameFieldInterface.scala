@@ -2,9 +2,9 @@ package de.htwg.se.muehle.model.gameFieldComponent
 
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.Stone
 
-trait gameFieldInterface(muehleMatrix: Vector[Vector[Stone]]) {
+trait gameFieldInterface {
   //Getter
-  def getMuehleMatrix: Vector[Vector[Stone]] = muehleMatrix
+  def getMuehleMatrix: Vector[Vector[Stone]]
   
   def withEnumAt(row: Int, col: Int, newEnum: Stone): gameFieldInterface
   def mesh(): String

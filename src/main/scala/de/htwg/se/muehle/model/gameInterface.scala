@@ -6,13 +6,22 @@ import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Gamefield, Stone, m
 import de.htwg.se.muehle.model.mechanicComponent.mechanic.Mechanic
 import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
 
-trait gameInterface(mech: mechanicInterface, field: gameFieldInterface, message: Option[String], player: Stone, currentGameState: GameStateEnum) {
-  //Getter
-  def getMechanic: mechanicInterface = mech
-  def getGameField: gameFieldInterface = field
-  def getMessage: Option[String] = message
-  def getPlayer: Stone = player
-  def getCurrentGameState: GameStateEnum = currentGameState
+import de.htwg.se.muehle.model.gameComponent.Game
+import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
+import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Gamefield, Stone, meshComponentInterface}
+import de.htwg.se.muehle.model.mechanicComponent.mechanic.Mechanic
+import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
+
+trait gameInterface {
+  def getMechanic: mechanicInterface
+
+  def getGameField: gameFieldInterface
+
+  def getMessage: Option[String]
+
+  def getPlayer: Stone
+
+  def getCurrentGameState: GameStateEnum
   
   //def getGameMechanic: Mechanic
   def setStoneGame(ring: Int, posOnRing: Int): Game
