@@ -12,6 +12,7 @@ lazy val root = project
       "org.scalactic" %% "scalactic" % "3.2.18",
       "org.scalatest" %% "scalatest" % "3.2.18" % "test",
       "org.scala-lang.modules" %% "scala-swing" % "3.0.0",
-      "net.codingwell" %% "scala-guice" % "7.0.0"
+      "net.codingwell" %% "scala-guice" % "7.0.0",
+      "com.typesage.play" %% "play-json" % "2.10.3"
     )
   )
