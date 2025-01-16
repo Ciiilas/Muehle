@@ -4,12 +4,13 @@ import de.htwg.se.muehle.controller.*
 import de.htwg.se.muehle.model.gameComponent.{Game, PlayerState}
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Stone, meshComponentInterface}
 import de.htwg.se.muehle.model.{GameStateEnum, gameInterface}
+import de.htwg.se.muehle.model.FileIOComponent.FileIOComponent
 import de.htwg.se.muehle.util.{Command, Event, Observable, UndoManager}
 import de.htwg.se.muehle.MuehleModule
 import com.google.inject.{Guice, Inject, Injector}
 
 
-case class Controller @Inject() (var game: gameInterface) extends controllerInterface with Observable {
+case class Controller @Inject() (var game: gameInterface, val FileIOComponent: FileIOComponent) extends controllerInterface with Observable {
   //def this() = this(new gameInterface(game))
   
   private val injector: Injector = Guice.createInjector(new MuehleModule)
@@ -88,9 +89,19 @@ case class Controller @Inject() (var game: gameInterface) extends controllerInte
   def getOpponentPlayer: Stone = {
     game.getOpponentPlayer
   }
+  
   //-----------------------------------------------------
-  //undoManager
+  //load/save
   //-----------------------------------------------------
+  
+  def load(): Unit = {
+    this.game = FileIOComponent.load()
+  }
+  
+  def save(): Unit = {
+    FileIOComponent.save(game)
+  }
+  
   
   
 }
