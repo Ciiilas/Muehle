@@ -24,6 +24,7 @@ trait gameInterface {
   def getCurrentGameState: GameStateEnum
   
   //def getGameMechanic: Mechanic
+  def syncPlayerState(): Unit
   def setStoneGame(ring: Int, posOnRing: Int): Game
   def moveStoneGame(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Game
   def jumpStoneGame(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Game

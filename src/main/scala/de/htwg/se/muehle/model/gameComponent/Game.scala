@@ -1,5 +1,6 @@
 package de.htwg.se.muehle.model.gameComponent
 
+import PlayerState.currentStone
 import com.google.inject.Inject
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.*
 import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
@@ -13,10 +14,17 @@ import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
 import de.htwg.se.muehle.model.{GameStateEnum, gameInterface}
 
 
-case class Game @Inject() (mech: mechanicInterface, field: gameFieldInterface, message: Option[String] = None, player: Stone = Stone.White, currentGameState: GameStateEnum = GameStateEnum.SET_STONE) extends gameInterface {
-  //def this() = this(Mechanic(), new Gamefield())
-  //def this(gamefield: Gamefield) = this(Mechanic(), gamefield)
-
+case class Game @Inject() (
+                            mech: mechanicInterface, 
+                            field: gameFieldInterface, 
+                            message: Option[String] = None, 
+                            player: Stone = Stone.White, 
+                            currentGameState: GameStateEnum = GameStateEnum.SET_STONE
+                          ) extends gameInterface {
+  def this() = this(Mechanic(), new Gamefield())
+  def this(gamefield: gameFieldInterface) = this(Mechanic(), gamefield)
+  
+  
   override def getMechanic: mechanicInterface = mech
 
   override def getGameField: gameFieldInterface = field
@@ -31,8 +39,8 @@ case class Game @Inject() (mech: mechanicInterface, field: gameFieldInterface, m
   //mechanic
   //-----------------------------------------------------
   //def getGameMechanic: mechanicInterface = mech
-
-
+  
+  
   def setStoneGame(ring: Int, posOnRing: Int): Game = {
     val gameState = checkAndSetGameState()
     if (gameState == GameStateEnum.SET_STONE) {
@@ -154,12 +162,20 @@ case class Game @Inject() (mech: mechanicInterface, field: gameFieldInterface, m
 
 
 object PlayerState:
-  var stone: Stone = Stone.White
+  private var currentStone: Stone = Stone.White
 
+  def stone: Stone = currentStone
+  
+  def stone_=(newStone: Stone): Unit = currentStone = newStone
+  
+  def syncWithGame(game: Game): Unit = currentStone = game.player
+  
   def getStone: Stone = stone
   def player: String = stone.toString
   def opponent: Stone = if stone.equals(Stone.White) then Stone.Black else Stone.White
-  def next(): Unit = if stone.equals(Stone.White) then stone = Stone.Black else stone = Stone.White
+  def next(): Unit = {
+    currentStone = if (currentStone == Stone.White) Stone.Black else Stone.White
+  }
   
   var roundCount: Int = 0
   def incrementCount(): Unit = if stone.equals(Stone.White) then roundCount = roundCount + 1 else roundCount = roundCount
