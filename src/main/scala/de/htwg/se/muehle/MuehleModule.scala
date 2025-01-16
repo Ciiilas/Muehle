@@ -23,6 +23,6 @@ class MuehleModule extends AbstractModule {
     bind(new TypeLiteral[Option[String]]() {}).toInstance(None)
     bind(classOf[EvaluateStrategy]).to(classOf[ComplexEvaluateStrategy])
     bind(classOf[Int]).toInstance(0)
-    bind(classOf[FileIOComponent]).to(classOf[FileIOJSON])
+    bind(classOf[FileIOComponent]).to(classOf[FileIOXML])
   }
 }
