@@ -19,7 +19,7 @@ class FileIOJSON extends FileIOComponent {
     val json: JsValue = Json.obj(
       "number_of_rings" -> game.getGameField.getMuehleMatrix.size
     )
-    val pw = new PrintWriter(new File("SaveGame.txt"))
+    val pw = new PrintWriter(new File("SaveGame.json"))
     pw.write(json.toString)
     pw.close()
   }
