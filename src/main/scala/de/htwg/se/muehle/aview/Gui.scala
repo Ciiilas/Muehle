@@ -61,14 +61,6 @@ class BoardPanel(controller: Controller) extends Panel {
                 controller.moveStone(x, y, i, j)
                 firstClick = None
             }
-          case GameStateEnum.JUMP_STONE =>
-            firstClick match {
-              case None =>
-                firstClick = Some((i, j))
-              case Some((x, y)) =>
-                controller.jumpStone(x, y, i, j)
-                firstClick = None
-          }
           case GameStateEnum.REMOVE_STONE =>
             controller.removeStone(i, j)
           case GameStateEnum.GAME_OVER => 

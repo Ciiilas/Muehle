@@ -154,10 +154,8 @@ class testGui(controller: Controller) extends SimpleSwingApplication with Observ
           case GameStateEnum.REMOVE_STONE =>
             controller.removeStone(squareIndex, pointIndex)
           case GameStateEnum.GAME_OVER =>
-            println("Game is over")
+            controller.sendGameOver(Option("Game is over"))
         }
-      } else {
-        println("Kein gültiger Punkt geklickt")
       }
     }
   }

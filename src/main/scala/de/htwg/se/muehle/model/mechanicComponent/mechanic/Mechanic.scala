@@ -7,7 +7,10 @@ import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Gamefield, Stone}
 import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
 
-case class Mechanic @Inject (CounterOfSetStone: Int = 0, evaluateStrategy: EvaluateStrategy = new ComplexEvaluateStrategy) extends mechanicInterface {
+case class Mechanic @Inject (
+                              CounterOfSetStone: Int = 0, 
+                              evaluateStrategy: EvaluateStrategy = new ComplexEvaluateStrategy
+                            ) extends mechanicInterface {
 
   override def getEvaluateStrategy: EvaluateStrategy = evaluateStrategy
 
