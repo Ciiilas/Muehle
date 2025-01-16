@@ -16,11 +16,11 @@ class FileIOJSON extends FileIOComponent {
   }
 
   def save(game: gameInterface): Unit = {
-    val json: JsValue = Json.obj()
+    val json: JsValue = Json.obj(
+      "number_of_rings" -> game.getGameField.getMuehleMatrix.size
+    )
     val pw = new PrintWriter(new File("SaveGame.txt"))
-    pw.write(json)
-    
-    
-    return ???
+    pw.write(json.toString)
+    pw.close()
   }
 }
