@@ -91,7 +91,6 @@ class Tui(controller: Controller) extends Observer {
     controller.setDecorator(true) // Dekorator ausschalten
     println(controller.getMesh.render())
     println(controller.game.asInstanceOf[Game].message.get)
-    println("Spieler: " + controller.game.asInstanceOf[Game].player.toString + " ist am Zug")
-    println("setCoutn: " + controller.game.asInstanceOf[Game].mech.asInstanceOf[Mechanic].CounterOfSetStone)
+    println("Anzahl Figuren die bis jetzt platziert wurden: " + controller.game.asInstanceOf[Game].mech.asInstanceOf[Mechanic].CounterOfSetStone)
   }
 }

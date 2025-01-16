@@ -34,10 +34,11 @@ case class Controller @Inject() (var game: gameInterface, val FileIOComponent: F
   //-----------------------------------------------------
   //mechanic with undoManager inclusive
   //-----------------------------------------------------
+  
 
-  //val gamemech: Mechanic = game.getGameMechanic
-
-  def getGameState: GameStateEnum = game.getCurrentGameState
+  def getGameState: GameStateEnum = {
+    game.getCurrentGameState
+  }
 
   def doStep(command: Command[gameInterface]): Unit = {
     game = undoManager.doStep(game, command)
@@ -59,9 +60,11 @@ case class Controller @Inject() (var game: gameInterface, val FileIOComponent: F
   def removeStone(newRing: Int, newPosOnRing: Int): Unit = {
     doStep(new RemoveCommand(game, newRing, newPosOnRing))
   }
+
   
-  def checkForMuehle(ring: Int, posOnRing: Int): Boolean = {
-    game.isMuehle(ring, posOnRing)
+  def sendGameOver(message: Option[String]): Unit = {
+    game.setMessage(message)
+    notifyObservers(Event.GameOver)
   }
 
   //-----------------------------------------------------

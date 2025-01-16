@@ -15,4 +15,7 @@ trait Observable:
 
 enum Event:
   case Set
+  case GameOver
+  case Save
+  case Load
   case Quit
