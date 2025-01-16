@@ -1,4 +1,4 @@
-package de.htwg.se.muehle.model
+package de.htwg.se.muehle.model.gamefield
 
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Gamefield, Stone}
 import org.scalatest.matchers.should.Matchers.*
