@@ -15,7 +15,19 @@ class FileIOXML extends FileIOComponent {
   }
 
   def save(game: gameInterface): Unit = {
-    val data = <game><gamefield><number_of_rings>{game.getGameField.getMuehleMatrix.size}</number_of_rings></gamefield></game>
+
+    val data = <game>
+                <gamefield>
+                  <number_of_rings>{game.getGameField.getMuehleMatrix.size}</number_of_rings>
+                  <MuehleMatrix>{game.getGameField.getMuehleMatrix}</MuehleMatrix>
+                </gamefield>
+                <mechanic>
+                  <CounterOfSetStone>{game.getMechanic.getCounterOfSetStone}</CounterOfSetStone>
+                </mechanic>
+                <message>{game.getMessage}</message>
+                <player>{game.getPlayer}</player>
+                <currentGameState>{game.getCurrentGameState}</currentGameState>
+              </game>
     
     val pw = new PrintWriter(new File("SaveGame.xml"))
     pw.write(data.toString)
