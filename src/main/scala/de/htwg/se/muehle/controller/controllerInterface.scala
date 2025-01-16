@@ -17,4 +17,6 @@ trait controllerInterface {
   def jumpStone(fromSquareIndex: Int, fromPointIndex: Int, toSquareIndex: Int, toPointIndex: Int): Unit
   def removeStone(squareIndex: Int, pointIndex: Int): Unit
   def undo(): Unit
+  def load(): Unit
+  def save(): Unit
 }

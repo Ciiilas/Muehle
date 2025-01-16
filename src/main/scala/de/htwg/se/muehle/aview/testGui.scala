@@ -174,6 +174,14 @@ class testGui(controller: Controller) extends SimpleSwingApplication with Observ
         contents += new MenuItem(Action("Exit") {
           sys.exit(0) // Beendet das Programm
         })
+        contents += new MenuItem(Action("Load") {
+          controller.load() // Undo-Funktion aufrufen
+          repaint()
+        })
+        contents += new MenuItem(Action("Save") {
+          controller.save() // Undo-Funktion aufrufen
+          repaint()
+        })
       }
     }
     contents = new BorderPanel {

@@ -88,5 +88,10 @@ case class Controller @Inject() (var game: gameInterface) extends controllerInte
   def getOpponentPlayer: Stone = {
     game.getOpponentPlayer
   }
+  //-----------------------------------------------------
+  //undoManager
+  //-----------------------------------------------------
+  
+  
 }
 
