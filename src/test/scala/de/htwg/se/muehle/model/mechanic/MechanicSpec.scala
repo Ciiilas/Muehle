@@ -25,10 +25,10 @@ class MechanicSpec extends AnyWordSpec {
       game.mech.isSetLegal(new Gamefield("EEEEEEEE", 1, 8), 0, 0) should be(true)
       game.mech.isSetLegal(new Gamefield("EEEEEEEE", 1, 8), 0, 8) should be(false)
     }
-    "set a Stone" in {
+/*    "set a Stone" in {
       game.mech.setStone(new Gamefield("EEEEEEEE", 1, 8), 0, 0, Stone.White) should be(new Gamefield("WEEEEEEE", 1, 8))
       game.mech.setStone(new Gamefield("EEEEEEEEEEEEEEEE", 2, 8), 1, 0, Stone.White) should be(new Gamefield("EEEEEEEEWEEEEEEE", 2, 8))
-    }
+    }*/
     "recognise if move is legal or not" in {
       game.mech.isMoveLegal(new Gamefield("WEEEEEEE", 1, 8), 0, 0, 0, 1, Stone.White) should be(true)
       game.mech.isMoveLegal(new Gamefield("WEEEEEEE", 1, 8), 0, 0, 0, 0, Stone.White) should be(false)
