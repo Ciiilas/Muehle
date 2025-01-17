@@ -11,7 +11,7 @@ import com.google.inject.{Guice, Inject, Injector}
 
 
 case class Controller @Inject() (var game: gameInterface, fileIOComponent: FileIOComponent) extends controllerInterface with Observable {
-  //def this() = this(game, fileIOComponent)
+  
   
   private val injector: Injector = Guice.createInjector(new MuehleModule)
 
