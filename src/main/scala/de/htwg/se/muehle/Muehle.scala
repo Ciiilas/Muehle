@@ -1,46 +1,37 @@
 package de.htwg.se
 package muehle
 
-import de.htwg.se.muehle.aview.Tui
-import de.htwg.se.muehle.controller.Controller
+import de.htwg.se.muehle.aview.{Gui, Tui, testGui}
+import de.htwg.se.muehle.controller.controllerComponent.Controller
+import de.htwg.se.muehle.model.gameComponent.Game
+import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
+import de.htwg.se.muehle.model.gameFieldComponent.gamefield.Gamefield
+import de.htwg.se.muehle.model.gameInterface
+import de.htwg.se.muehle.model.mechanicComponent.mechanic.Mechanic
+import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
 
-import de.htwg.se.muehle.model.gamefield.Mesh
-
-
-
+import com.google.inject.Guice
 
 object Muehle {
-  
-  val controller = new Controller()
-  val mesh = new Mesh()
-  val Tui = new Tui(controller)
-  //val Board = new Board_output_on_console
 
-  //todo komment delete later
+
+
   def main(args: Array[String]): Unit = {
-
+    val mech: mechanicInterface = new Mechanic
+    val gameField: gameFieldInterface = new Gamefield
+    val game: gameInterface = Game(mech, gameField)
+    val injector = Guice.createInjector(new MuehleModule)
+    val controller = injector.getInstance(classOf[Controller])
+    val tui = new Tui(controller)
+    val simpleSwingGui = new testGui(controller)
+    //val SwingGUI = new Gui(controller)
 
     println("Welcome to Muehle")
+
+    simpleSwingGui.top.visible = true
+
+    //SwingGUI.visible = true
     
-    val lineWidth: Int = 7
-    val lineNum: Int = 2
-    val boolean: Boolean = true
-    println(mesh.mesh(lineWidth, lineNum))
-    
-    Tui.run()
-
-    
-
-
-
-    println(mesh.mesh(lineWidth, lineNum))
-
-
-//    val size: Int = 36
-//    val player = Player(Figure.Boot)
-//    val card = Card(Street_Names.Schlossallee, 0, Figure.Empty)
-//    val controller = new Controller(Board().fillCards)
-//    val tui = new Tui(controller)
-//    tui.run()
+    tui.run()
   }
 }

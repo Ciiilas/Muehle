@@ -1,4 +1,4 @@
-import de.htwg.se.muehle.model.gamefield.Stone
+import de.htwg.se.muehle.model.gameFieldComponent.gamefield.Stone
 
 object PlayerState:
   var stone: Stone = Stone.White

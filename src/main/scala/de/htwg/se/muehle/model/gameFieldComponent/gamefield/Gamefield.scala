@@ -1,12 +1,30 @@
-package de.htwg.se.muehle.model.gamefield
+package de.htwg.se.muehle.model.gameFieldComponent.gamefield
 
-import de.htwg.se.muehle.model.gamefield.Stone
+import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
+import play.api.libs.json._
 
-
-case class Gamefield(val muehleMatrix: Vector[Vector[Stone]]) {
+case class Gamefield(muehleMatrix: Vector[Vector[Stone]]) extends gameFieldInterface { 
   def this(n: Int, m: Int, default: Stone) = this(Vector.fill(n)(Vector.fill(m)(Stone.Empty)))
   def this() = this(3, 8, Stone.Empty)
+  def this(boardString: String, rows: Int, cols: Int) = { // val board = new Board("WBEBEWEWE", 2, 5) -> Vector(Vector(White, Black, Empty, Black, Empty), Vector(White, Empty, White, Empty, Empty))
+    this(
+      boardString
+        .grouped(cols)
+        .map(row =>
+          row.map {
+            case 'W' => Stone.White
+            case 'B' => Stone.Black
+            case 'E' => Stone.Empty
+            case _ => throw new IllegalArgumentException("Invalid character in boardString")
+          }.toVector
+        ).toVector
+    )
+  }
 
+  override def getMuehleMatrix: Vector[Vector[Stone]] = muehleMatrix
+  
+  def getGameField: Gamefield = this
+  
   // Update method for a specific enumMatrix value at (row, col)
   def withEnumAt(row: Int, col: Int, newEnum: Stone): Gamefield = {
     val updatedMatrix =
@@ -17,12 +35,9 @@ case class Gamefield(val muehleMatrix: Vector[Vector[Stone]]) {
     this.copy(muehleMatrix = updatedMatrix)
   }
 
-  //------------------------------------------
-  //            MESH
-  //------------------------------------------
-
   override def toString: String = mesh()
-
+  
+  val eol: String = sys.props("line.separator")
   var numberRings: Int = muehleMatrix.size //wird heruntergezählt
   var spacer: Int = 1 // bleibt gleich
   var leftSpacer: Int = 0 //wird hochgezählt
@@ -30,15 +45,15 @@ case class Gamefield(val muehleMatrix: Vector[Vector[Stone]]) {
   var leftSpacerInBetween: Int = 0 //wird hochgezählt
   var rightSpacerInBetween: Int = 0 //wird hochgezählt
 
-  def meshMesh(): String = {
+  def mesh(): String = {
     var meshString: String = ""
     for (index <- muehleMatrix.indices.reverse) {
-      meshString += spacerLeftTop(leftSpacer)                     // +1
-      meshString += barSegmentLeft(index)                         // "E─────"
-      meshString += muehleMatrix(index)(1).toString               // "E"
-      meshString += barSegmentRight(index)                        // "─────E"
-      meshString += spacerRightTop(rightSpacer)                   // +1
-      meshString += eol                                           // eol
+      meshString += spacerLeftTop(leftSpacer) // +1
+      meshString += barSegmentLeft(index) // "E─────"
+      meshString += muehleMatrix(index)(1).toString // "E"
+      meshString += barSegmentRight(index) // "─────E"
+      meshString += spacerRightTop(rightSpacer) // +1
+      meshString += eol // eol
       if (index >= 1) {
         meshString += spacerLeftTop(leftSpacer) // "│ "           // +1
         //meshString += barSegmentLeftInBetween(leftSpacerInBetween)  //
@@ -65,7 +80,7 @@ case class Gamefield(val muehleMatrix: Vector[Vector[Stone]]) {
     meshString += " " * 3
     for (index <- muehleMatrix.indices) {
       meshString += muehleMatrix(index)(3)
-      if (index < muehleMatrix.size-1) {
+      if (index < muehleMatrix.size - 1) {
         meshString += "─"
       }
     }
@@ -76,7 +91,7 @@ case class Gamefield(val muehleMatrix: Vector[Vector[Stone]]) {
     meshString += spacerLeftBottom(leftSpacer) // "│ " -1
     meshString += " "
     meshString += spacerRightBottom(rightSpacer) // " │" -1
-    meshString += eol  //│ │ │   │ │ │
+    meshString += eol //│ │ │   │ │ │
 
 
     for (index <- muehleMatrix.indices) {
@@ -89,11 +104,11 @@ case class Gamefield(val muehleMatrix: Vector[Vector[Stone]]) {
       meshString += eol // eol
       this.leftSpacer += 1
       this.rightSpacer += 1
-      if (index < muehleMatrix.size-1) {
+      if (index < muehleMatrix.size - 1) {
         meshString += spacerLeftBottom(leftSpacer) // "│ "           // -1
 
-        meshString += " " * ((index +1) * 2) + "│"
-        meshString += " " * ((index +1) * 2)
+        meshString += " " * ((index + 1) * 2) + "│"
+        meshString += " " * ((index + 1) * 2)
 
         meshString += spacerRightBottom(rightSpacer) // " │"         //-1
         meshString += eol
@@ -103,114 +118,54 @@ case class Gamefield(val muehleMatrix: Vector[Vector[Stone]]) {
   }
 
 
-  private def barSegmentLeft(times: Int): String = {
-    muehleMatrix(times)(0).toString + "─" * (times*2+1)
+  def barSegmentLeft(times: Int): String = {
+    muehleMatrix(times)(0).toString + "─" * (times * 2 + 1)
   }
 
-  private def barSegmentRight(times: Int): String = {
-    "─" * (times*2+1) + muehleMatrix(times)(2).toString
+  def barSegmentRight(times: Int): String = {
+    "─" * (times * 2 + 1) + muehleMatrix(times)(2).toString
   }
 
-  private def spacerLeftTop(times: Int): String = {
+  def spacerLeftTop(times: Int): String = {
     val string: String = ("│" + " ") * times
     this.leftSpacer += 1
     string
   }
 
-  private def spacerRightTop(times: Int): String = {
+  def spacerRightTop(times: Int): String = {
     val string: String = (" " + "│") * times
     this.rightSpacer += 1
     string
   }
 
-  private def spacerLeftBottom(times: Int): String = {
+  def spacerLeftBottom(times: Int): String = {
     val string: String = ("│" + " ") * times
     this.leftSpacer -= 1
     string
   }
 
-  private def spacerRightBottom(times: Int): String = {
+  def spacerRightBottom(times: Int): String = {
     val string: String = (" " + "│") * times
     this.rightSpacer -= 1
     string
   }
 
-  private def barSegmentLeftBottom(times: Int): String = {
+  def barSegmentLeftBottom(times: Int): String = {
     muehleMatrix(times)(6).toString + "─" * (times * 2 + 1)
   }
 
-  private def barSegmentRightBottom(times: Int): String = {
+  def barSegmentRightBottom(times: Int): String = {
     "─" * (times * 2 + 1) + muehleMatrix(times)(4).toString
   }
-
-//  def barSegmentLeftInBetween(times: Int): String = {
-//    val string: String = "│" + "a" * (times * 2 + 1)
-//    this.leftSpacerInBetween += 1
-//    string
-//  }
-//
-//  def barSegmentRightInBetween(times: Int): String = {
-//    val string: String = "b" * times + "│"
-//    this.rightSpacerInBetween += 1
-//    string
-//  }
-
-  private def barSegmentMiddleLeft(times: Int): String = {
-    var bar: String = ""
-    for (index <- muehleMatrix.indices.reverse) {
-
-    }
-    bar
-  }
-
-  private def barSegmentMiddleRight(times: Int): String = {
-    ???
-  }
-
-  private def barSegmentMiddle(times: Int): String = {
-    ???
-  }
-
-
-
-  val eol: String = sys.props("line.separator")
-
-  def bar(lineWidth: Int, lineNum: Int, eolB: Boolean): String = ("0" + "─" * lineWidth) * lineNum + "0" + (if (eolB) eol else "")
-
-  def spacer(lineWidth: Int, lineNum: Int, eolB: Boolean): String = ("│" + " " * lineWidth) * lineNum + "│" + (if (eolB) eol else "")
-
-  def middelBar(lineNum: Int): String = bar(2, lineNum, false) + " " * 3 + bar(2, lineNum, true)
-
-  def tinyBarFront(lineNum: Int): String = ("│" + " " * 2) * lineNum
-
-  def tinyBarBack(lineNum: Int, eolB: Boolean): String = (" " * 2 + "│") * lineNum + (if (eolB) eol else "")
-
-
-  def bar(outermostRing: Int,  thisRing: Int): String = {
-
-    return ""
-  }
-
-  def barwithnumbers(outermostRing: Int, thisRing: Int): String = {
-    val lenght: Int = 5 + outermostRing * 4
-    var bar: Array[Char] = Array.fill(lenght)(' ')
-    val numberOfOutsideRings = outermostRing - thisRing
-    //val numberOfNot
-    
-
-    return ""
-  }
-  
-  def barmiddle(outermostRing: Int): String = {
-    
-    
-    return ""
-  }
-
-  def mesh(): String = ???
-
 }
 
-
-
-
+object Gamefield {
+  implicit val writes: Writes[Gamefield] = Writes { gamefield =>
+    Json.obj(
+      "muehleMatrix" -> gamefield.muehleMatrix.map(_.map(Json.toJson(_)))
+    )
+  }
+  implicit val reads: Reads[Gamefield] = Reads { 
+    json => (json \ "muehleMatrix").validate[Vector[Vector[Stone]]].map(Gamefield(_))
+  }
+}
