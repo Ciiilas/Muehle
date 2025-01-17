@@ -17,18 +17,16 @@ class Tui(controller: controllerInterface) extends Observer {
 
   def run(): Unit = {
     while (true) {
-      println("Please enter your command:")
-
+      println("Bitte geben Sie Ihren Befehl ein:")
       try {
         val textInput: String = StdIn.readLine()
         val textProcessing: Array[String] = textInput.split(" ")
-
         if (textProcessing.length == 1) {
           textProcessing(0) match {
             case "undo" => controller.undo()
-            case "quit" => println("Goodbye!")
+            case "quit" => println("Auf Wiedersehen!")
               sys.exit(0)
-            case "exit" => println("Goodbye!")
+            case "exit" => println("Auf Wiedersehen!")
               return
             case "save" => controller.save()
             case "load" => controller.load()
