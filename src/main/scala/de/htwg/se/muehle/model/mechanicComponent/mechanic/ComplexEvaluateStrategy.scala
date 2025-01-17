@@ -8,7 +8,6 @@ class ComplexEvaluateStrategy extends EvaluateStrategy {
       //check Muehle from Ring Center
       if (newPosOnRing % 2 == 1) {
         //checking On Ring
-        //newPosOnRing == (oldPosOnRing + 1) % 8 || newPosOnRing == (oldPosOnRing - 1 + 8) % 8
         if (field.getMuehleMatrix(newRing)((newPosOnRing - 1 + 8) % 8) == stone && field.getMuehleMatrix(newRing)((newPosOnRing + 1) % 8) == stone) {
           return true
         }

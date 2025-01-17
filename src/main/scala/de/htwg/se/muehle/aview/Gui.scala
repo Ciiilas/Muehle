@@ -3,7 +3,6 @@ package aview
 
 import de.htwg.se.muehle.controller.controllerComponent.Controller
 import scala.swing.*
-import scala.swing.BorderPanel.Position
 import java.awt.{Color, Graphics2D}
 import scala.swing.event.MouseClicked
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.Stone
@@ -19,8 +18,7 @@ class Gui(controller: Controller) extends SimpleSwingApplication with Observer {
     text = "Willkommen zu Mühle"
     preferredSize = new Dimension(600, 50)
   }
-
-
+  
   private val boardPanel: Panel = new Panel {
     preferredSize = new Dimension(600, 600)
 
@@ -190,7 +188,6 @@ class Gui(controller: Controller) extends SimpleSwingApplication with Observer {
   override def update(e: Event): Unit = {
     e match
       case Event.Set =>
-        //println(controller.getMuehleMatrix) // Note: Debug-Ausgabe
         messageLable.text = controller.game.asInstanceOf[Game].message.getOrElse("Mühle-Spielfeld")
         boardPanel.repaint()
 

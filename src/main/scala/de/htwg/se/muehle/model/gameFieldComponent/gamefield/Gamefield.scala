@@ -48,28 +48,27 @@ case class Gamefield(muehleMatrix: Vector[Vector[Stone]]) extends gameFieldInter
   def mesh(): String = {
     var meshString: String = ""
     for (index <- muehleMatrix.indices.reverse) {
-      meshString += spacerLeftTop(leftSpacer) // +1
-      meshString += barSegmentLeft(index) // "E─────"
-      meshString += muehleMatrix(index)(1).toString // "E"
-      meshString += barSegmentRight(index) // "─────E"
-      meshString += spacerRightTop(rightSpacer) // +1
-      meshString += eol // eol
+      meshString += spacerLeftTop(leftSpacer)
+      meshString += barSegmentLeft(index)
+      meshString += muehleMatrix(index)(1).toString
+      meshString += barSegmentRight(index)
+      meshString += spacerRightTop(rightSpacer)
+      meshString += eol
       if (index >= 1) {
-        meshString += spacerLeftTop(leftSpacer) // "│ "           // +1
-        //meshString += barSegmentLeftInBetween(leftSpacerInBetween)  //
+        meshString += spacerLeftTop(leftSpacer)
         meshString += " " * (index * 2) + "│"
         meshString += " " * (index * 2)
-        //meshString += barSegmentRightInBetween(leftSpacerInBetween) //
-        meshString += spacerRightTop(rightSpacer) // " │"
+        
+        meshString += spacerRightTop(rightSpacer)
         meshString += eol
         this.leftSpacer -= 1
         this.rightSpacer -= 1
       }
     }
-    meshString += spacerLeftTop(leftSpacer) // "│ "
+    meshString += spacerLeftTop(leftSpacer)
     meshString += " "
-    meshString += spacerRightTop(rightSpacer) // " │"
-    meshString += eol //│ │ │   │ │ │
+    meshString += spacerRightTop(rightSpacer)
+    meshString += eol
     // ----- MiddleBar ------
     for (index <- muehleMatrix.indices.reverse) {
       meshString += muehleMatrix(index)(7)
@@ -88,10 +87,10 @@ case class Gamefield(muehleMatrix: Vector[Vector[Stone]]) extends gameFieldInter
     // ----- MiddleBar ------
     this.leftSpacer = muehleMatrix.size
     this.rightSpacer = muehleMatrix.size
-    meshString += spacerLeftBottom(leftSpacer) // "│ " -1
+    meshString += spacerLeftBottom(leftSpacer)
     meshString += " "
-    meshString += spacerRightBottom(rightSpacer) // " │" -1
-    meshString += eol //│ │ │   │ │ │
+    meshString += spacerRightBottom(rightSpacer)
+    meshString += eol
 
 
     for (index <- muehleMatrix.indices) {
