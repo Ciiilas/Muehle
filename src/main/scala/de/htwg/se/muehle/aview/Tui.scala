@@ -7,6 +7,7 @@ import de.htwg.se.muehle.model.GameStateEnum
 import de.htwg.se.muehle.model.gameComponent.Game
 import util.Observer
 import de.htwg.se.muehle.util.Event
+import de.htwg.se.muehle.util.Event.{Load, Save}
 
 import scala.io.StdIn
 
@@ -25,9 +26,11 @@ class Tui(controller: Controller) extends Observer {
           textProcessing(0) match {
             case "undo" => controller.undo()
             case "quit" => println("Goodbye!")
-              return
+              sys.exit(0)
             case "exit" => println("Goodbye!")
               return
+            case "save" => controller.save()
+            case "load" => controller.load()
             case _ => println("Error falsches Eingabeformat")
           }
         } else if (textProcessing.length == 2) {
@@ -89,8 +92,16 @@ class Tui(controller: Controller) extends Observer {
 
   override def update(e: Event): Unit = {
     controller.setDecorator(true) // Dekorator ausschalten
-    println(controller.getMesh.render())
-    println(controller.game.asInstanceOf[Game].message.get)
-    println("Anzahl Figuren die bis jetzt platziert wurden: " + controller.game.asInstanceOf[Game].mech.asInstanceOf[Mechanic].CounterOfSetStone)
+    e match {
+      case Event.Set =>
+        println(controller.getMesh.render())
+        println(controller.game.asInstanceOf[Game].message.get)
+      case Event.GameOver => println("Spiel ist vorbei")
+      case Save => println("Spiel gespeichert")
+
+      case Load => println("Spiel geladen")
+        println(controller.getMesh.render())
+        println(controller.game.asInstanceOf[Game].message.get)
+    }
   }
 }
