@@ -10,7 +10,7 @@ import de.htwg.se.muehle.MuehleModule
 import com.google.inject.{Guice, Inject, Injector}
 
 
-case class Controller @Inject() (game: gameInterface, fileIOComponent: FileIOComponent) extends controllerInterface with Observable {
+case class Controller @Inject() (val game: gameInterface, fileIOComponent: FileIOComponent) extends controllerInterface with Observable {
   //def this() = this(game, fileIOComponent)
   
   private val injector: Injector = Guice.createInjector(new MuehleModule)
@@ -79,7 +79,7 @@ case class Controller @Inject() (game: gameInterface, fileIOComponent: FileIOCom
     game.setDecorator(enabled)
   }
 
-  def getMesh: meshComponentInterface = {
+  def getMesh(): meshComponentInterface = {
     game.getMesh
   }
   
