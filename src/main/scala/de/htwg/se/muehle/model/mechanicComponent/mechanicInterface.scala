@@ -23,6 +23,8 @@ trait mechanicInterface {
   def removeStone(field: gameFieldInterface, ring: Int, posOnRing: Int, stone: Stone): gameFieldInterface
 }
 
+
+
 object mechanicInterface {
   implicit val writes: Writes[mechanicInterface] = Writes {
     case mechanic: Mechanic => Json.toJson(mechanic)(Mechanic.writes)

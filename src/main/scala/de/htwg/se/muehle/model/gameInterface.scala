@@ -13,6 +13,8 @@ import de.htwg.se.muehle.model.mechanicComponent.mechanic.Mechanic
 import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
 
 trait gameInterface {
+  
+  // Getter
   def getMechanic: mechanicInterface
 
   def getGameField: gameFieldInterface
@@ -23,9 +25,7 @@ trait gameInterface {
 
   def getCurrentGameState: GameStateEnum
   
-  
-  
-  
+  // Methods
   def setStoneGame(ring: Int, posOnRing: Int): Game
   def moveStoneGame(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Game
   def jumpStoneGame(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Game
