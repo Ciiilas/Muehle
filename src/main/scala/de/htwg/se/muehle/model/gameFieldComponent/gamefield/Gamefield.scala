@@ -1,7 +1,7 @@
 package de.htwg.se.muehle.model.gameFieldComponent.gamefield
 
 import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
-
+import play.api.libs.json._
 
 case class Gamefield(muehleMatrix: Vector[Vector[Stone]]) extends gameFieldInterface { 
   def this(n: Int, m: Int, default: Stone) = this(Vector.fill(n)(Vector.fill(m)(Stone.Empty)))
@@ -156,5 +156,16 @@ case class Gamefield(muehleMatrix: Vector[Vector[Stone]]) extends gameFieldInter
 
   def barSegmentRightBottom(times: Int): String = {
     "─" * (times * 2 + 1) + muehleMatrix(times)(4).toString
+  }
+}
+
+object Gamefield {
+  implicit val writes: Writes[Gamefield] = Writes { gamefield =>
+    Json.obj(
+      "muehleMatrix" -> gamefield.muehleMatrix.map(_.map(Json.toJson(_)))
+    )
+  }
+  implicit val reads: Reads[Gamefield] = Reads { 
+    json => (json \ "muehleMatrix").validate[Vector[Vector[Stone]]].map(Gamefield(_))
   }
 }

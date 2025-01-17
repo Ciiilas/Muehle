@@ -174,11 +174,9 @@ class testGui(controller: Controller) extends SimpleSwingApplication with Observ
         })
         contents += new MenuItem(Action("Load") {
           controller.load() // Undo-Funktion aufrufen
-          repaint()
         })
         contents += new MenuItem(Action("Save") {
           controller.save() // Undo-Funktion aufrufen
-          repaint()
         })
       }
     }
@@ -190,8 +188,26 @@ class testGui(controller: Controller) extends SimpleSwingApplication with Observ
 
   // Observer Update-Methode
   override def update(e: Event): Unit = {
-    //println(controller.getMuehleMatrix) // Note: Debug-Ausgabe
-    messageLable.text = controller.game.asInstanceOf[Game].message.getOrElse("Mühle-Spielfeld")
-    boardPanel.repaint()
+    e match
+      case Event.Set =>
+        //println(controller.getMuehleMatrix) // Note: Debug-Ausgabe
+        messageLable.text = controller.game.asInstanceOf[Game].message.getOrElse("Mühle-Spielfeld")
+        boardPanel.repaint()
+
+      case Event.GameOver =>
+        messageLable.text = "Game Over"
+        boardPanel.repaint()
+
+      case Event.Load =>
+        messageLable.text = "Load"
+        boardPanel.repaint()
+
+      case Event.Save =>
+        messageLable.text = "Save"
+        boardPanel.repaint()
+
+      case Event.Quit =>
+        sys.exit(0)
+        boardPanel.repaint()
   }
 }
