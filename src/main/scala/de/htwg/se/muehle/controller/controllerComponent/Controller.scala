@@ -10,7 +10,7 @@ import de.htwg.se.muehle.MuehleModule
 import com.google.inject.{Guice, Inject, Injector}
 
 
-case class Controller @Inject() (val game: gameInterface, fileIOComponent: FileIOComponent) extends controllerInterface with Observable {
+case class Controller @Inject() (var game: gameInterface, fileIOComponent: FileIOComponent) extends controllerInterface with Observable {
   //def this() = this(game, fileIOComponent)
   
   private val injector: Injector = Guice.createInjector(new MuehleModule)
@@ -96,12 +96,12 @@ case class Controller @Inject() (val game: gameInterface, fileIOComponent: FileI
   //-----------------------------------------------------
   
   def load(): Unit = {
-    this.game = FileIOComponent.load()
+    this.game = fileIOComponent.load()
     notifyObservers(Event.Load)
   }
   
   def save(): Unit = {
-    FileIOComponent.save(game)
+    fileIOComponent.save(game)
     notifyObservers(Event.Save)
   }
 }
