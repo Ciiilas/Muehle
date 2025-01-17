@@ -31,7 +31,6 @@ trait gameInterface {
   def jumpStoneGame(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Game
   def removeStoneGame(ring: Int, posOnRing: Int): Game
   def isMuehle(newField: gameFieldInterface, ring: Int, posOnRing: Int): Boolean
-  def setMessage(message: Option[String]): Game
   def setDecorator(enabled: Boolean): Unit
   def getMesh: meshComponentInterface
   def checkAndSetGameState(): GameStateEnum

@@ -122,10 +122,7 @@ case class Game @Inject() (
   def isMuehle(newField: gameFieldInterface, ring: Int, posOnRing: Int): Boolean = {
     mech.getEvaluateStrategy.checkForMuehle(newField, ring, posOnRing, PlayerState.stone)
   }
-
-  def setMessage(message: Option[String]): Game = {
-    Game(mech, field, message, player, currentGameState)
-  }
+  
   
   //-----------------------------------------------------
   //gameField

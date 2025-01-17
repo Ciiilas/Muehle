@@ -32,11 +32,10 @@ class GameSpec extends AnyWordSpec {
       val game = new Game()
       game.getCurrentGameState should be(game.currentGameState)
     }
-
-
-
+    "return the opponent player" in {
+      val game = new Game()
+      game.getCurrentGameState should be(game.currentGameState)
+    }
 
   }
-
-
 }
