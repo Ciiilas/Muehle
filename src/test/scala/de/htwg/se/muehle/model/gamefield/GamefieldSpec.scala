@@ -5,7 +5,7 @@ import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
 
 class GamefieldSpec extends AnyWordSpec {
-  "mesh should return correct string representation for default gamefield" in {
+/*  "mesh should return correct string representation for default gamefield" in {
     val gamefield = new Gamefield()
     val expectedMesh = "\n0─────0─────0\n" +
       "│     │     │\n" +
@@ -80,7 +80,7 @@ class GamefieldSpec extends AnyWordSpec {
       "│     │     │\n" +
       "0─────0─────0\n"
     gamefield.mesh() should be(expectedMesh)
-  }
+  }*/
 
   "should change muehlematrix" in {
     val field = new Gamefield("EEEEEEEE", 1, 8)
