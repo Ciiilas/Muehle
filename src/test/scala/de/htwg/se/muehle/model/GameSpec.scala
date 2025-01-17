@@ -35,7 +35,7 @@ class GameSpec extends AnyWordSpec {
     }
     "return the opponent player" in {
       val game = new Game()
-      game.getOpponentPlayer should be(Stone.Black)
+      game.getOpponentPlayer should be(Stone.White)
     }
 
   }
