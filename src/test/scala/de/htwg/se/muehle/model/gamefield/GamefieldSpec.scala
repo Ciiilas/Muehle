@@ -87,6 +87,11 @@ class GamefieldSpec extends AnyWordSpec {
     field.withEnumAt(0, 0, Stone.White) should be(new Gamefield("WEEEEEEE", 1, 8))
   }
   "should made a bar" in {
-    barSegmentLeft(2) should be("--") 
+    val field = new Gamefield()
+    field.barSegmentLeft(2) should be("--")
+  }
+  "should made a bar" in {
+    val field = new Gamefield()
+    field.barSegmentRight(2) should be("--")
   }
 }

@@ -13,7 +13,7 @@ class GameSpec extends AnyWordSpec {
     }
     "return the mechanic" in {
       val game = new Game()
-      game.getGameMechanic should be(game.mech)
+      game.getMechanic should be(game.mech)
     }
 /*    "move a stone" in {
       val game = new Game(new Gamefield("EEEWEEEE", 1, 8))
