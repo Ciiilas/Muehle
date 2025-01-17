@@ -7,7 +7,7 @@ import org.scalatest.wordspec.AnyWordSpec
 class GamefieldSpec extends AnyWordSpec {
   "mesh should return correct string representation for default gamefield" in {
     val gamefield = new Gamefield()
-    val expectedMesh = "0─────0─────0\n" +
+    val expectedMesh = "\n0─────0─────0\n" +
       "│     │     │\n" +
       "│ 0───0───0 │\n" +
       "│ │   │   │ │\n" +
@@ -114,5 +114,9 @@ class GamefieldSpec extends AnyWordSpec {
   "should made a segemnt left bottom" in {
     val field = new Gamefield()
     field.barSegmentLeftBottom(2) should be("0─────")
+  }
+  "should made a segemnt right bottom" in {
+    val field = new Gamefield()
+    field.barSegmentRightBottom(2) should be("─────0")
   }
 }
