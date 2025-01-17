@@ -2,6 +2,7 @@ package de.htwg.se.muehle
 package aview
 
 import de.htwg.se.muehle.controller.controllerComponent.Controller
+import de.htwg.se.muehle.controller.controllerInterface
 import de.htwg.se.muehle.model.mechanicComponent.mechanic.Mechanic
 import de.htwg.se.muehle.model.GameStateEnum
 import de.htwg.se.muehle.model.gameComponent.Game
@@ -11,7 +12,7 @@ import de.htwg.se.muehle.util.Event.{Load, Save}
 
 import scala.io.StdIn
 
-class Tui(controller: Controller) extends Observer {
+class Tui(controller: controllerInterface) extends Observer {
   controller.add(this)
 
   def run(): Unit = {

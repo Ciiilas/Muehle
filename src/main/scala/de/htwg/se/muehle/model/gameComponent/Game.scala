@@ -22,7 +22,8 @@ case class Game @Inject() (
                             player: Stone = Stone.White,
                             currentGameState: GameStateEnum = GameStateEnum.SET_STONE
                           ) extends gameInterface {
-  def this() = this(Mechanic(), new Gamefield())
+  
+  def this() = this(new Mechanic(), new Gamefield())
   def this(gamefield: gameFieldInterface) = this(Mechanic(), gamefield)
 
 

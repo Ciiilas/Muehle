@@ -10,8 +10,8 @@ import de.htwg.se.muehle.MuehleModule
 import com.google.inject.{Guice, Inject, Injector}
 
 
-case class Controller @Inject() (var game: gameInterface, FileIOComponent: FileIOComponent) extends controllerInterface with Observable {
-  //def this() = this(new gameInterface(game))
+case class Controller @Inject() (game: gameInterface, fileIOComponent: FileIOComponent) extends controllerInterface with Observable {
+  //def this() = this(game, fileIOComponent)
   
   private val injector: Injector = Guice.createInjector(new MuehleModule)
 
