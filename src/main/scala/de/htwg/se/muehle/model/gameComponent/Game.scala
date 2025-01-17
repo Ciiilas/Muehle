@@ -12,6 +12,7 @@ import de.htwg.se.muehle.model.gameFieldComponent.gamefield.*
 import de.htwg.se.muehle.model.mechanicComponent.mechanic.*
 import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
 import de.htwg.se.muehle.model.{GameStateEnum, gameInterface}
+import play.api.libs.json._
 
 
 case class Game @Inject() (
@@ -36,6 +37,7 @@ case class Game @Inject() (
   override def getCurrentGameState: GameStateEnum = {
     if currentGameState == GameStateEnum.REMOVE_STONE then GameStateEnum.REMOVE_STONE else currentGameState
   }
+  
   
   //-----------------------------------------------------
   //mechanic
@@ -179,4 +181,24 @@ object PlayerState:
     currentStone = if (currentStone == Stone.White) Stone.Black else Stone.White
   }
 
+object Game {
+  implicit val writes: Writes[Game] = Writes {
+    game => Json.obj(
+      "mechanic" -> Json.toJson(game.mech)(mechanicInterface.writes),
+      "field" -> Json.toJson(game.field)(gameFieldInterface.writes),
+      "message" -> game.message,
+      "player" -> Json.toJson(game.player),
+      "currentGameState" -> Json.toJson(game.currentGameState)
+    )
+  }
 
+  implicit val reads: Reads[Game] = Reads {
+    json => for {
+      mechanic <- (json \ "mechanic").validate[mechanicInterface](mechanicInterface.reads)
+      field <- (json \ "field").validate[gameFieldInterface](gameFieldInterface.reads)
+      message <- (json \ "message").validateOpt[String]
+      player <- (json \ "player").validate[Stone]
+      currentGameState <- (json \ "currentGameState").validate[GameStateEnum]
+    } yield Game(mechanic, field, message, player, currentGameState)
+  }
+}

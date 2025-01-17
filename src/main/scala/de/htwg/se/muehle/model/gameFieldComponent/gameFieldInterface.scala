@@ -1,6 +1,7 @@
 package de.htwg.se.muehle.model.gameFieldComponent
 
-import de.htwg.se.muehle.model.gameFieldComponent.gamefield.Stone
+import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Gamefield, Stone}
+import play.api.libs.json.*
 
 trait gameFieldInterface {
   //Getter
@@ -16,4 +17,15 @@ trait gameFieldInterface {
   def spacerRightBottom(times: Int): String
   def barSegmentLeftBottom(times: Int): String
   def barSegmentRightBottom(times: Int): String
+}
+
+object gameFieldInterface {
+  implicit val writes: Writes[gameFieldInterface] = Writes {
+    case gameField: Gamefield => Json.toJson(gameField)(Gamefield.writes)
+    case _ => throw new IllegalArgumentException("Unknown gameFieldInterface implementation")
+  }
+
+  implicit val reads: Reads[gameFieldInterface] = Reads {
+    json => json.validate[Gamefield](Gamefield.reads)
+  }
 }

@@ -10,7 +10,7 @@ import de.htwg.se.muehle.MuehleModule
 import com.google.inject.{Guice, Inject, Injector}
 
 
-case class Controller @Inject() (var game: gameInterface, val FileIOComponent: FileIOComponent) extends controllerInterface with Observable {
+case class Controller @Inject() (var game: gameInterface, FileIOComponent: FileIOComponent) extends controllerInterface with Observable {
   //def this() = this(new gameInterface(game))
   
   private val injector: Injector = Guice.createInjector(new MuehleModule)
@@ -60,10 +60,8 @@ case class Controller @Inject() (var game: gameInterface, val FileIOComponent: F
   def removeStone(newRing: Int, newPosOnRing: Int): Unit = {
     doStep(new RemoveCommand(game, newRing, newPosOnRing))
   }
-
   
   def sendGameOver(message: Option[String]): Unit = {
-    game.setMessage(message)
     notifyObservers(Event.GameOver)
   }
 
@@ -99,13 +97,12 @@ case class Controller @Inject() (var game: gameInterface, val FileIOComponent: F
   
   def load(): Unit = {
     this.game = FileIOComponent.load()
+    notifyObservers(Event.Load)
   }
   
   def save(): Unit = {
     FileIOComponent.save(game)
+    notifyObservers(Event.Save)
   }
-  
-  
-  
 }
 

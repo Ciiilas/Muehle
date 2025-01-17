@@ -6,6 +6,7 @@ import de.htwg.se.muehle.model.gameComponent.PlayerState
 import de.htwg.se.muehle.model.gameFieldComponent.gameFieldInterface
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.{Gamefield, Stone}
 import de.htwg.se.muehle.model.mechanicComponent.mechanicInterface
+import play.api.libs.json._
 
 case class Mechanic @Inject (
                               CounterOfSetStone: Int = 0, 
@@ -168,5 +169,20 @@ case class Mechanic @Inject (
       field
     }
   }
+}
+
+object Mechanic {
+  implicit val writes: Writes[Mechanic] = Writes {
+    mechanic =>
+      Json.obj(
+        "counterOfSetStone" -> mechanic.CounterOfSetStone
+      )
+  }
   
+  implicit val reads: Reads[Mechanic] = Reads {
+    json =>
+      for {
+        counterOfSetStone <- (json \ "counterOfSetStone").validate[Int]
+      } yield Mechanic(counterOfSetStone)
+  }
 }
