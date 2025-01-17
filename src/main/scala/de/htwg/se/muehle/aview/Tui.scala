@@ -2,6 +2,7 @@ package de.htwg.se.muehle
 package aview
 
 import de.htwg.se.muehle.controller.controllerComponent.Controller
+import de.htwg.se.muehle.controller.controllerInterface
 import de.htwg.se.muehle.model.mechanicComponent.mechanic.Mechanic
 import de.htwg.se.muehle.model.GameStateEnum
 import de.htwg.se.muehle.model.gameComponent.Game
@@ -11,7 +12,7 @@ import de.htwg.se.muehle.util.Event.{Load, Save}
 
 import scala.io.StdIn
 
-class Tui(controller: Controller) extends Observer {
+class Tui(controller: controllerInterface) extends Observer {
   controller.add(this)
 
   def run(): Unit = {
@@ -39,17 +40,17 @@ class Tui(controller: Controller) extends Observer {
               textProcessing(0) match {
                 case "set" => println(s"try to set Stone at: (${coords(0)(0)}, ${coords(0)(1)})")
                   controller.setStone(coords(0)(0), coords(0)(1))
-                  if(controller.game.asInstanceOf[Game].currentGameState == GameStateEnum.REMOVE_STONE) {
+                  if(controller.getGame.asInstanceOf[Game].currentGameState == GameStateEnum.REMOVE_STONE) {
                     muehle()
                   }
                 case "move" => println(s"try to move from: (${coords(0)(0)}, ${coords(0)(1)}) to (${coords(1)(0)}, ${coords(1)(1)})")
                   controller.moveStone(coords(0)(0), coords(0)(1), coords(1)(0), coords(1)(1))
-                  if(controller.game.asInstanceOf[Game].currentGameState == GameStateEnum.REMOVE_STONE) {
+                  if(controller.getGame.asInstanceOf[Game].currentGameState == GameStateEnum.REMOVE_STONE) {
                     muehle()
                   }
                 case "jump" => println(s"try to jump from: (${coords(0)(0)}, ${coords(0)(1)}) to (${coords(1)(0)}, ${coords(1)(1)})")
                   controller.jumpStone(coords(0)(0), coords(0)(1), coords(1)(0), coords(1)(1))
-                  if(controller.game.asInstanceOf[Game].currentGameState == GameStateEnum.REMOVE_STONE) {
+                  if(controller.getGame.asInstanceOf[Game].currentGameState == GameStateEnum.REMOVE_STONE) {
                     muehle()
                   }
                 case "remove" => println(s"try to remove Stone at: (${coords(0)(0)}, ${coords(0)(1)})")
@@ -94,14 +95,14 @@ class Tui(controller: Controller) extends Observer {
     controller.setDecorator(true) // Dekorator ausschalten
     e match {
       case Event.Set =>
-        println(controller.getMesh.render())
-        println(controller.game.asInstanceOf[Game].message.get)
+        println(controller.getMesh().render())
+        println(controller.getGame.asInstanceOf[Game].message.get)
       case Event.GameOver => println("Spiel ist vorbei")
       case Save => println("Spiel gespeichert")
 
       case Load => println("Spiel geladen")
-        println(controller.getMesh.render())
-        println(controller.game.asInstanceOf[Game].message.get)
+        println(controller.getMesh().render())
+        println(controller.getGame.asInstanceOf[Game].message.get)
     }
   }
 }

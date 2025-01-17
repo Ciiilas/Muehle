@@ -98,7 +98,7 @@ class BoardPanel(controller: Controller) extends Panel {
     }
 
     // Draw the stones based on the game state
-    val mesh = controller.getMesh.render()
+    val mesh = controller.getMesh().render()
     val rows = mesh.split("\n")
     for ((i, j) <- positions) {
       val char = rows(i).charAt(j)

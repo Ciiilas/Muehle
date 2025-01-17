@@ -25,16 +25,20 @@ trait gameInterface {
   
   
   
-  //def getGameMechanic: Mechanic
+  
   def setStoneGame(ring: Int, posOnRing: Int): Game
   def moveStoneGame(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Game
   def jumpStoneGame(oldRing: Int, oldPosOnRing: Int, newRing: Int, newPosOnRing: Int): Game
   def removeStoneGame(ring: Int, posOnRing: Int): Game
   def isMuehle(newField: gameFieldInterface, ring: Int, posOnRing: Int): Boolean
   def setMessage(message: Option[String]): Game
-  //def getGameField: Gamefield
   def setDecorator(enabled: Boolean): Unit
   def getMesh: meshComponentInterface
   def checkAndSetGameState(): GameStateEnum
   def getOpponentPlayer: Stone
+  
+  
+  
+  
+  
 }
