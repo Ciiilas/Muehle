@@ -2,6 +2,7 @@ package de.htwg.se.muehle.model
 
 import de.htwg.se.muehle.model.gameComponent.Game
 import de.htwg.se.muehle.model.gameFieldComponent.gamefield.Gamefield
+import de.htwg.se.muehle.model.gameFieldComponent.gamefield.Stone
 import de.htwg.se.muehle.model.gameInterface
 import org.scalatest.matchers.should.Matchers.*
 import org.scalatest.wordspec.AnyWordSpec
@@ -34,7 +35,7 @@ class GameSpec extends AnyWordSpec {
     }
     "return the opponent player" in {
       val game = new Game()
-      game.getCurrentGameState should be(game.currentGameState)
+      game.getOpponentPlayer should be(Stone.Black)
     }
 
   }
