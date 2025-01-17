@@ -40,17 +40,17 @@ class Tui(controller: controllerInterface) extends Observer {
               textProcessing(0) match {
                 case "set" => println(s"try to set Stone at: (${coords(0)(0)}, ${coords(0)(1)})")
                   controller.setStone(coords(0)(0), coords(0)(1))
-                  if(controller.game.asInstanceOf[Game].currentGameState == GameStateEnum.REMOVE_STONE) {
+                  if(controller.getGame.asInstanceOf[Game].currentGameState == GameStateEnum.REMOVE_STONE) {
                     muehle()
                   }
                 case "move" => println(s"try to move from: (${coords(0)(0)}, ${coords(0)(1)}) to (${coords(1)(0)}, ${coords(1)(1)})")
                   controller.moveStone(coords(0)(0), coords(0)(1), coords(1)(0), coords(1)(1))
-                  if(controller.game.asInstanceOf[Game].currentGameState == GameStateEnum.REMOVE_STONE) {
+                  if(controller.getGame.asInstanceOf[Game].currentGameState == GameStateEnum.REMOVE_STONE) {
                     muehle()
                   }
                 case "jump" => println(s"try to jump from: (${coords(0)(0)}, ${coords(0)(1)}) to (${coords(1)(0)}, ${coords(1)(1)})")
                   controller.jumpStone(coords(0)(0), coords(0)(1), coords(1)(0), coords(1)(1))
-                  if(controller.game.asInstanceOf[Game].currentGameState == GameStateEnum.REMOVE_STONE) {
+                  if(controller.getGame.asInstanceOf[Game].currentGameState == GameStateEnum.REMOVE_STONE) {
                     muehle()
                   }
                 case "remove" => println(s"try to remove Stone at: (${coords(0)(0)}, ${coords(0)(1)})")
@@ -95,14 +95,14 @@ class Tui(controller: controllerInterface) extends Observer {
     controller.setDecorator(true) // Dekorator ausschalten
     e match {
       case Event.Set =>
-        println(controller.getMesh.render())
-        println(controller.game.asInstanceOf[Game].message.get)
+        println(controller.getMesh().render())
+        println(controller.getGame.asInstanceOf[Game].message.get)
       case Event.GameOver => println("Spiel ist vorbei")
       case Save => println("Spiel gespeichert")
 
       case Load => println("Spiel geladen")
-        println(controller.getMesh.render())
-        println(controller.game.asInstanceOf[Game].message.get)
+        println(controller.getMesh().render())
+        println(controller.getGame.asInstanceOf[Game].message.get)
     }
   }
 }
